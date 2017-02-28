@@ -42,7 +42,8 @@ code {
 }
 
 .note {
-    background: #e9fbe9;
+    background: #f0fff0;
+    margin: 0.5em;
     padding: 0.5em;
     border: 0.5em;
     border-left-style: solid;
@@ -50,7 +51,8 @@ code {
 }
 
 .issue {
-    background: #fbe9e9;
+    background: #fff0f0;
+    margin: 0.5em;
     padding: 0.5em;
     border: 0.5em;
     border-left-style: solid;

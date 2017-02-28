@@ -286,7 +286,12 @@ The "else" clause (if present) must be a numbered sibling to the matching "if" c
 </pre>
 
 <div class="issue">
-TODO: Resolve "else" vs. "otherwise" (which is used in many specs).  Options include: (1) Require "else" and "else if"; (2) Require "otherwise" and "otherwise if"; (3) Allow both (but require that the spec must be consistent). Also, see Ternary Operator for another use of "otherwise".
+ISSUE: Resolve "else" vs. "otherwise" (which is used in many specs).  Options include:
+(1) Require "else" and "else if";
+(2) Require "otherwise" and "otherwise if";
+(3) Allow both (but require that the spec must be consistent).
+Also, see Ternary Operator for another use of "otherwise".
+See <a href="https://github.com/garykac/procspec/issues/9">Issue #9</a>.
 </div>
 
 <p>
@@ -492,7 +497,8 @@ The exit action can be appended to another action.
 <h2>Asynchronous tasks</h2>
 
 <p>
-By default, all algorithms run on the main thread. To run part of the algorithm on a background thread, use the "in parallel" construction:
+By default, all algorithms run on the main thread. To run part of the algorithm on a
+background thread, use the "in parallel" construction:
 </p>
 
 <pre class="codeblock">
@@ -502,12 +508,23 @@ By default, all algorithms run on the main thread. To run part of the algorithm 
 </pre>
 
 <p>
-This indicates that a separate task should be created on the background thread to run the substeps (step-1 & step-2) in order. This new background task is run in parallel with the steps on the main thread.
+This indicates that a separate task should be created on the background thread to run the
+substeps (step-1 & step-2) in order. This new background task is run in parallel with the
+steps on the main thread.
 </p>
 
 <div class="note">
-NOTE: In English, the construction "run these substeps in parallel: A, B, C" means "run A, B and C in parallel with each other". However, in specifications, it has the specific meaning of running A, B and C sequentially on a background thread (that runs in parallel with the main thread).
+NOTE: In English, the construction "run these substeps in parallel: A, B, C" means
+"run A, B and C in parallel with each other". However, in specifications, it has the
+specific meaning of running A, B and C sequentially on a background thread (that runs in
+parallel with the main thread).
+<div class="issue">
+ISSUE: This construction is rather awkward because it doesn't match the standard English
+meaning of this phrase.
+See <a href="https://github.com/garykac/procspec/issues/6">Issue #6</a>. 
 </div>
+</div>
+
 
 <h3>Running on the Background Thread</h3>
 
@@ -718,7 +735,8 @@ Consider the following scenarios:
 </ul>
 
 <div class="issue">
-TODO: What about global objects for Workers? (for APIs exposed to both Windows and Workers)
+ISSUE: What about global objects for Workers? (for APIs exposed to both Windows and Workers).
+See <a href="https://github.com/garykac/procspec/issues/10">Issue #10</a>.
 </div>
 
 </body>
