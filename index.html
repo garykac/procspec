@@ -9,8 +9,8 @@
 <body>
 
 <h1>Writing Procedural Specs</h1>
-<div class="subtitle">...using Bikeshed</div>
 <div class="subtitle">...for the Web Platform</div>
+<div class="subtitle">...using Bikeshed</div>
 
 <div class="info">Author: garykac@ (relying heavily on the expertise of domenic@, jakearchibald@, jsbell@, ...)</div>
 <div class="info">Status: Draft</div>
@@ -18,7 +18,8 @@
 <h2>About</h2>
 
 <p>
-A simple overview of common structures in algorithmic web standard specifications.
+This document contains a simple overview of common structures in algorithmic web standard specifications, with
+attention paid to the particular issues associated with Web Platform specifications.
 The examples are all presented in Bikeshed.
 </p>
 
@@ -27,6 +28,52 @@ NOTE: This document is mostly a collection of notes that I started making while 
 spec writing process. It does not currently cover everything, but rather only those things that I've bumped into so far.
 It's written as a set of recommendations, even though this is not official documentation.
 </div>
+
+<h2>Introduction</h2>
+
+<h3>What is a Procedural Spec?</h3>
+
+<p>
+The recent call for "procedural specs" is basically asking for spec to be more specific and
+detailed (e.g, by including pseudo code algorithms and explicitly specifying each step).
+It came about as a reaction to the fairly loose style that had become prevalent in specs.
+</p>
+
+<p>
+Exclusively relying on the more informal style (where specs are mostly prose) sometimes led
+to situations where the behavior looked like it was well-specified, but inadvertently omitted
+important details. This, coupled with a lack of good tests, led at times to well-intentioned
+implementors creating incompatible versions of a feature (for example, the
+<code>KeyboardEvent</code>'s <code>keyCode</code> and <code>charCode</code> attributes).
+</p>
+
+<p>
+Of course, most specifications fall on the spectrum between these two extremes. Specifications
+will typically be some combination of informal prose (often non-normative) and more formal
+algorithms. The spec editor should use judgement to balance the need for readability vs.
+the need for specificity and consider the role that proper tests play in the specification
+process.
+</p>
+
+<h3>Location</h3>
+
+<p>
+Because this document is an amalgam of information about procedural specs, the Web Platform
+and Bikeshed, some of the information might be more properly located in other locations:
+</p>
+
+<ul>
+	<li><a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org</a>, for algorithms
+		and procedural spec writing</li>
+	<li><a href="https://tabatkins.github.io/bikeshed/">Bikeshed documentation</a>, for information
+		relating to using Bikeshed</li>
+	<li>Various Web Platform specs, for information about how to use defined objects in other
+		specifications</li>
+</ul>
+
+<p>
+It's possible that some information presented here will move into other locations in the future.
+</p>
 
 <h2>Sequential algorithm steps</h2>
 
