@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Writing Procedural Specs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+
+<h1>Writing Procedural Specs</h1>
+<div class="subtitle">...using Bikeshed</div>
+<div class="subtitle">...for the Web Platform</div>
+
+<div class="info">Author: garykac@ (relying heavily on the expertise of domenic@, jakearchibald@, jsbell@, ...)</div>
+<div class="info">Status: Draft</div>
+
+<h2>About</h2>
+
+<p>
+A simple overview of common structures in algorithmic web standard specifications.
+The examples are all presented in Bikeshed.
+</p>
+
+<div class="note">
+NOTE: This document is mostly a collection of notes that I started making while wading into the procedural
+spec writing process. It does not currently cover everything, but rather only those things that I've bumped into so far.
+It's written as a set of recommendations, even though this is not official documentation.
+</div>
+
+<h2>Sequential algorithm steps</h2>
+
+<p>
+All algorithm steps are implicitly sequential and each step must begin with <code>1.</code> so that they are auto-numbered.
+</p>
+
+<pre class="codeblock">
+1. step-1
+1. step-2
+1. step-3
+</pre>
+
+<p>
+Note that Bikeshed doesn't require that the lines begin with <code>1.</code> -- any number followed by a <code>.</code> will work.
+Some spec editors prefer to explicitly number the items 1, 2, 3 to make the Bikeshed source document easier
+to read, but the recommendation here is to use <code>1.</code> everywhere to make it easier to insert new steps at the
+beginning or middle of the algorithm.
+</p>
+
+<h2>Concept Types and Objects</h2>
+
+<p>
+Types and objects that are required by the algorithm should be described outside the algorithm and should be
+presented as a definition, for example:
+</p>
+
+<div class="codeblock">
+The user agent has a <dfn>really useful object</dfn> that ...
+</div>
+
+<p>
+Note that the definition is a short, readable English phrase rather than a variable name (so no camelCase
+et al.). These lines are not numbered because they are not part of an algorithm.
+</p>
+
+<p>
+References to this type or object should be wrapped in <code>[=</code> and <code>=]</code> so that they are auto-linked by Bikeshed.
+</p>
+
+<pre class="codeblock">
+1. If the [=really useful object=] is null, then …
+</pre>
+
+<div class="note">
+NOTE: You could also wrap types/objects with a simple <code>&lt;a></code> tag and Bikeshed will auto-link that as well,
+but the <code>[=</code>square bracket<code>=]</code> notation is easier to read and allows concise use of <code>[=for/term=]</code> for
+scoped definitions.
+</div>
+
+<h3>Scoping Definitions</h3>
+
+<p>
+If you are defining a generic term, you may need to scope it to disambiguate it from other uses of the same
+term (which may occur if another specification exports that term). Consider the following 2 definitions for
+"resolution":
+</p>
+
+<pre class="codeblock">
+A [=television=] has a &lt;dfn>resolution&lt;/dfn> that …
+
+Each completed [=action=] has a &lt;dfn>resolution&lt;/dfn> that …
+</pre>
+
+<p>
+These definitions can be scoped using the "for" attribute:
+</p>
+
+<pre class="codeblock">
+A [=television=] has a &lt;dfn for=television>resolution&lt;/dfn> that …
+
+Each completed [=action=] has a &lt;dfn for=action>resolution&lt;/dfn> that …
+</pre>
+
+<p>
+This allows the definitions to be explicitly referenced using the scope and the term:
+</p>
+
+<pre class="codeblock">
+1. If the [=television/resolution=] is "1080p", then …
+1. If the [=action/resolution=] is "fail", then …
+</pre>
+
+<p>
+Note that if you are adding multiple definitions for the same object, you can set a default scope as follows:
+</p>
+
+<pre class="codeblock">
+&lt;div dfn-for=television>
+	A [=television=] has a &lt;dfn>current channel&lt;/dfn> …
+	A [=television=] has a &lt;dfn>resolution&lt;/dfn> …
+&lt;/div>
+</pre>
+
+<h2>Internal Slots</h2>
+
+<p>
+In IDL you define attributes, but in a procedural spec you should refer to "internal slot"s that hold
+the raw values associated with those attributes.
+</p>
+
+<p>
+As an example, given the following IDL:
+</p>
+
+<pre class="codeblock">
+Interface Television {
+	attribute unsigned short channel;
+	readonly attribute boolean supportsHighDefinition;
+};
+</pre>
+
+<p>
+A procedural spec would describe this by:
+</p>
+
+<p>
+(1) <b>defining an "internal slot"</b> for the channel value:
+</p>
+
+<div class="codeblock">
+A [=television=] has a &lt;dfn for=television>current channel&lt;/dfn> which is a positive integer, initially 3.
+</div>
+
+<p>
+(2) specifying that the IDL attribute's <b>getter</b> should return the value in the internal slot:
+</p>
+
+<div class="codeblock">
+The &lt;dfn attribute for=Television>channel&lt;/dfn> IDL attribute's getter must return the television object’s [=television/current channel=].
+</div>
+
+<p>
+(3) specifying that the IDL attribute's <b>setter</b> should update the value in the internal slot (not for readonly attributes!):
+</p>
+
+<div class="codeblock">
+The &lt;dfn attribute for=Television>channel&lt;/dfn> IDL attribute's setter, given |value|, must set the television object’s [=television/current channel=] to |value|.
+</div>
+
+<p>
+(4) making sure that all operations in the spec <b>refer to the internal slot</b> rather than the IDL attribute:
+</p>
+
+<div class="codeblock">
+When the + button on the remote is pressed, increase [=television/current channel=] of the associated [=television=] by 1.
+</div>
+
+<h2>Local variables</h2>
+
+<p>
+When a variable is introduced (usually at the start of the algorithm, but may occur in the middle), use "let".
+</p>
+
+<pre class="codeblock">
+1. Let |y| be false.
+</pre>
+
+<p>
+Update already created variables with "set".
+</p>
+
+<pre class="codeblock">
+1. Set |x| to null.
+</pre>
+
+<h2>Variable Types</h2>
+
+<p>
+Boolean:
+</p>
+
+<ul>
+	<li>To create booleans: "Let |x| be a boolean initially set to true." (or false)</li>
+	<li>To update booleans: "set" to "true" or "false"</li>
+	<li>To check booleans: use "is true" or "is false"</li>
+</ul>
+
+<div class="note">
+NOTE: Many specs use "flags" which you "set" and "clear" and check for being "set" or "not set". Newer specs are starting to use "boolean". Existing specs that use flags may be converted at some point.
+</div>
+
+<h2>Returning a value</h2>
+
+<p>
+To return a value from the algorithm, use "return".
+</p>
+
+<pre class="codeblock">
+1. Return |x|.
+</pre>
+
+<h2>If - Then - Else</h2>
+
+<p>
+Simple "if x then y" constructions can be placed on a single line.
+</p>
+
+<pre class="codeblock">
+1. If |x| is "some-value", set |y| to true.
+</pre>
+
+<p>
+The "else" clause (if present) must be a numbered sibling to the matching "if" clause.
+</p>
+
+<pre class="codeblock">
+1. If |x| is "some-value", set |y| to true.
+1. Else set |y| to false.
+</pre>
+
+<div class="issue">
+TODO: Resolve "else" vs. "otherwise" (which is used in many specs).  Options include: (1) Require "else" and "else if"; (2) Require "otherwise" and "otherwise if"; (3) Allow both (but require that the spec must be consistent). Also, see Ternary Operator for another use of "otherwise".
+</div>
+
+<p>
+Any number of "else-if" clauses can be added, each one numbered at the same level as the matching "if" (see Switch, below, for another option if you have many "else-if"s).
+</p>
+
+<pre class="codeblock">
+1. If |x| is "some-value", set |some-var| to true.
+1. Else if |x| is "other-value", set |other-var| to true.
+1. Else set |other-other-var| to false.
+</pre>
+
+<p>
+If multiple actions need to occur, then "substeps" can be specified.
+</p>
+
+<pre class="codeblock">
+1. If |x| is "some-value", run the following substeps:
+	1. Set |some-var| to true.
+	1. Set |some-other-var| to false.
+1. Else if |x| is "other-value", run the following substeps:
+	1. Set |some-var| to false.
+	1. Set |some-other-var| to true.
+</pre>
+
+<p>
+Or simply:
+</p>
+
+<pre class="codeblock">
+1. If |x| is "some-value", then
+	1. Set |some-var| to true.
+</pre>
+
+<h2>Switch</h2>
+
+<p>
+In some cases it may be more readable to list a set of choices rather than using if/else steps. 
+</p>
+
+<pre class="codeblock">
+1. Switch on |style| and run the associated substeps:
+	&lt;dl class=switch>
+		&lt;dt>"prose"&lt;/dt>
+		&lt;dd>
+			1. Append the string "old and busted" to the output.
+			1. Return false 
+		&lt;/dd>
+
+		&lt;dt>"algorithmic"&lt;/dt>
+		&lt;dd>
+			1. Append the string "new hotness" to the output.
+			1. Return true
+		&lt;/dd>
+
+		&lt;dt>Otherwise&lt;/dt>
+		&lt;dd>
+			1. Throw TypeError.
+		&lt;/dd>
+	&lt;/dl>
+</pre>
+
+<p>
+The cases can be more complicated than simple values e.g. ranges, referencing lists, etc. In the extreme, conditions can be used as cases where this improves readability over long if/else if/else if steps, e.g.:
+</p>
+
+<pre class="codeblock">
+1. Jump to the appropriate steps below:
+	&lt;dl class=switch>
+		&lt;dt>If |var| is a list and length is greater than 1&lt;/dt>
+		&lt;dd>
+			... 
+		&lt;/dd>
+
+		&lt;dt>If |var| is a list and length is 1&lt;/dt>
+		&lt;dd>
+			…
+		&lt;/dd>
+
+		&lt;dt>If |var| is a string&lt;/dt>
+		&lt;dd>
+			…
+		&lt;/dd>
+
+		&lt;dt>Otherwise&lt;/dt>
+		&lt;dd>
+			…
+		&lt;/dd>
+	&lt;/dl>
+</pre>
+
+<div class="note">
+NOTE: In various spec stylesheets, the "switch" class generates ↪ (U+21AA RIGHTWARDS ARROW WITH HOOK) using CSS ::before content.
+</div>
+
+<h2>Ternary Operator</h2>
+
+<p>
+The compact ternary operator:
+</p>
+
+<pre class="codeblock">
+1. Set |x| to 1 if some-condition, or 2 otherwise.
+</pre>
+
+<h2>Conditions</h2>
+
+<p>
+Boolean conditions
+</p>
+
+<pre class="codeblock">
+1. If |var| is true, …
+</pre>
+
+<p>
+For conditions with complex data types, use "equals" and make sure it is linked to the text that defines equality for that data type. For example, for URLs:
+</p>
+
+<pre class="codeblock">
+1. If |thisURL| [=url/equals=] |requestURL|, …
+</pre>
+
+<div class="note">
+NOTE: <code>[=url/equals=]</code> is a Bikeshed shortcut for <code>&lt;a for="url">equals&lt;/a></code>.
+</div>
+
+<h2>For Each</h2>
+
+<p>
+Simple "for each" constructions can be placed on a single line.
+</p>
+
+<pre class="codeblock">
+1. [=For each=] {{Entry}} |e| in |entry-list|, set |e|'s {{Entry/start}} to 0.
+</pre>
+
+<p>
+For more complex actions, use a colon and add indented substeps.
+</p>
+
+<pre class="codeblock">
+1. [=For each=] {{Entry}} |e| in |entry-list|:
+	1. Set |e|'s {{Entry/start}} to 0.
+	1. Set |e|'s {{Entry/end}} to 0.
+</pre>
+
+<p>
+To exit the loop prematurely, use "break"/"break out of this loop" (to stop the loop entirely by jumping to the end) or "continue"/"continue to the next item" (to stop this iteration and continue with the next item in the collection).
+</p>
+
+<p>
+As a shortcut for:
+</p>
+
+<pre class="codeblock">
+1. [=For each=] |e| in |entry-list|:
+	1. If |e|'s {{type}} is "t", set |e|'s {{start}} to 0.
+</pre>
+
+<p>
+you can use "for each … whose …":
+</p>
+
+<pre class="codeblock">
+1. [=For each=] |e| in |entry-list| whose {{type}} is "t", set |e|'s {{start}} to 0.
+</pre>
+
+<h2>Exiting</h2>
+
+<p>
+To exit the entire algorithm:
+</p>
+
+<pre class="codeblock">
+1. Abort these steps
+</pre>
+
+<p>
+or
+</p>
+
+<pre class="codeblock">
+1. Return
+</pre>
+
+<p>
+To exit by throwing an error:
+</p>
+
+<pre class="codeblock">
+1. If Type(|v|) is not an Object, [=throw=] a TypeError
+</pre>
+
+<p>
+The exit action can be appended to another action.
+</p>
+
+<pre class="codeblock">
+1.  Set |x| to false and abort these steps.
+</pre>
+
+<h2>Asynchronous tasks</h2>
+
+<p>
+By default, all algorithms run on the main thread. To run part of the algorithm on a background thread, use the "in parallel" construction:
+</p>
+
+<pre class="codeblock">
+1. Run these substeps [=in parallel=]:
+	1. step-1
+	1. step-2
+</pre>
+
+<p>
+This indicates that a separate task should be created on the background thread to run the substeps (step-1 & step-2) in order. This new background task is run in parallel with the steps on the main thread.
+</p>
+
+<div class="note">
+NOTE: In English, the construction "run these substeps in parallel: A, B, C" means "run A, B and C in parallel with each other". However, in specifications, it has the specific meaning of running A, B and C sequentially on a background thread (that runs in parallel with the main thread).
+</div>
+
+<h3>Running on the Background Thread</h3>
+
+<p>
+When specifying steps that run on a background thread, there are some restrictions to be aware of:
+</p>
+
+<ul>
+<li>You cannot update values that are accessible from JS. Any action that needs to be observable from JS must be made on the main thread.</li>
+</ul>
+
+<p>
+Background tasks can create other background tasks (using the "in parallel" construction), but to get back onto the main thread, you need to "queue a task".
+</p>
+
+<pre class="codeblock">
+1. [=Queue a task=] that runs the following substeps:
+	1. step-1
+	1. step-2
+</pre>
+
+<p>
+If you need to refer to this task elsewhere, it can be introduced as a local variable.
+</p>
+
+<pre class="codeblock">
+[=Queue a task=] |task| that runs the following substeps:
+	1. step-1
+	1. step-2
+</pre>
+
+<p>
+Elsewhere in the algorithm, to block on this task, use "wait".
+</p>
+
+<pre class="codeblock">
+Wait for |task| to have executed.
+</pre>
+
+<h2>Promises</h2>
+
+<p>
+The proper way to use Promises in specifications is covered in
+<a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing Promise-Using Specifications</a>.
+This sections provides only a brief high-level summary.
+</p>
+
+<p>
+To create a new promise:
+</p>
+
+<pre class="codeblock">
+1. Let |promise| be a new [=promise=].
+</pre>
+
+<p>
+To resolve the promise with a value.
+</p>
+
+<pre class="codeblock">
+1. Resolve |promise| with |some-value|. 
+
+1. Resolve |promise| with undefined. 
+</pre>
+
+<p>
+To reject a promise, use "reject" with the error.
+</p>
+
+<pre class="codeblock">
+1. Reject |promise| with an "AnError" DOMException.
+</pre>
+
+<h2>Defining Functions</h2>
+
+<p>
+Functions with explicit input and output can be written as follows:
+</p>
+
+<pre class="codeblock">
+&lt;dfn>is it really Santa&lt;/dfn>
+: Input
+::    |name|, a string
+::    |isJolly|, a boolean
+: Output
+::   |isSanta|, a boolean
+1. Let |isSanta| be false.
+1. If name is "Nick" and |isJolly| is true, set |isSanta| to true.
+1. Return |isSanta|.
+</pre>
+
+<p>
+Sometimes, the function name is written more formally using camelCase or InitialCaps. In this example, that could be something like <dfn>isReallySanta</dfn>.
+</p>
+
+<p>
+If there are no input parameters to the function, the entire Input/Output block at the beginning is typically omitted.
+</p>
+
+<p>
+If there is input, but no output, then use "None" for output.
+</p>
+
+<pre class="codeblock">
+&lt;dfn>do something&lt;/dfn>
+: Input
+::    |name|, a string
+: Output
+::   None
+1. Fire an event named "name" at the xyz element.
+</pre>
+
+
+<h2>Calling Functions</h2>
+
+<p>
+Functions without parameters are called as follows:
+</p>
+
+<div class="codeblock">
+1. Let |result| be the result of running [=FunctionName=].
+</div>
+
+<p>
+Functions with parameters:
+</p>
+
+<div class="codeblock">
+1. Let |result| be the result of running [=FunctionName=] with "Kringle" and true as the arguments.
+</div>
+
+<p>
+or
+</p>
+
+<div class="codeblock">
+1. Let |result| be the result of running [=FunctionName=] given "Kringle" and true.
+</div>
+
+<p>
+or (naming each argument):
+</p>
+
+<div class="codeblock">
+1. Let |result| be the result of running [=FunctionName=] with |name| as "Kringle" and |isJolly| as true.
+</div>
+  
+<h2>Global Objects</h2>
+
+<p>
+For some global Concept Objects, it is important to make sure that they are defined in the appropriate location to ensure that feature works as intended (and so that it is implemented in a compatible way in different implementations).
+</p>
+
+<p>
+Here are some common locations considered for global objects:
+</p>
+
+<h3>User Agent</h3>
+
+<p>
+This makes the object the same for the entire browser (across all tabs and web pages). Usually, this is not what you want.
+</p>
+
+<h3>Browsing Context (aka, a "tab" in the browser)</h3>
+
+<p>
+Placing an object here makes it available to every page that is navigated to within that browsing context, even to cross-origin sites. This is also probably not where you want to place web platform objects.
+</p>
+
+<h3>Window/Navigator</h3>
+
+<p>
+Window and Navigator have the same observable behavior, so the choice between them is arbitrary. However, it is often easier to write specs that refer to "the navigator's object xxx" (for Navigator) rather than "the navigator's object relevant global object's xxx" (for Window).
+</p>
+
+<p>
+Consider the following scenarios:
+</p>
+
+<ul>
+<li>Inject into about:blank and then navigate: Objects <b>are</b> preserved.</li>
+<li>document.open(): Objects <b>are not</b> preserved (because the Window is re-created)</li>
+</ul>
+
+<h3>Document</h3>
+
+<p>
+This gives the object to every document, including those created by document.implementation.createDocument() and the XHR's <a href="https://xhr.spec.whatwg.org/#response-document-object">response document</a>.
+</p>
+
+<p>
+If your feature is user-facing, then you probably want to use "Document with a Browsing Context" so that the object is not present in those situations.
+</p>
+
+<h3>Document with a Browsing Context</h3>
+
+<p>
+This gives the object to every document that is associated with a tab in the browser.
+</p>
+
+<p>
+Consider the following scenarios:
+</p>
+
+<ul>
+<li>Inject into about:blank and then navigate: Objects <b>are not</b> preserved.</li>
+<li>document.open(): Objects <b>are</b> preserved</li>
+</ul>
+
+<div class="issue">
+TODO: What about global objects for Workers? (for APIs exposed to both Windows and Workers)
+</div>
+
+</body>
+</html>

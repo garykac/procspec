@@ -1,0 +1,58 @@
+
+body {
+	font-family: sans-serif;
+	max-width: 50em;
+	margin: 2em auto;
+	line-height: 1.25;
+}
+
+h1 {
+	font-weight: bold;
+	font-size: 2.2em;
+	margin: 1em 0 0.5em 0;
+}
+
+.subtitle {
+	font-size: 1.4em;
+	margin-bottom: 10px;
+}
+
+.info {
+	font-size: 1em;
+}
+
+h2 {
+	font-size: 1.4em;
+	margin: 2em 0 1em 0;
+}
+
+code {
+	background-color: #f8f8ff;
+	padding: 1px 3px;
+}
+
+.codeblock {
+	background-color: #f8f8ff;
+	margin: 1em 0;
+	padding: 10px 20px;
+	border-radius: 10px;
+	overflow: auto;
+	font-family: monospace;
+	tab-size: 4;
+}
+
+.note {
+    background: #e9fbe9;
+    padding: 0.5em;
+    border: 0.5em;
+    border-left-style: solid;
+	border-color: #52e052;
+}
+
+.issue {
+    background: #fbe9e9;
+    padding: 0.5em;
+    border: 0.5em;
+    border-left-style: solid;
+	border-color: #e05252;
+}
