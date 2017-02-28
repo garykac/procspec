@@ -59,6 +59,11 @@ code {
 	border-color: #e05252;
 }
 
+.examples {
+	font-size: .8em;
+	margin: -1em 0 1.5em 0;
+}
+
 .selected-text-file-an-issue {
 	position: fixed;
 	bottom: 0;

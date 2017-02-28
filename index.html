@@ -15,6 +15,8 @@
 <div class="info">Author: garykac@ (relying heavily on the expertise of domenic@, jakearchibald@, jsbell@, ...)</div>
 <div class="info">Status: Draft</div>
 
+
+
 <h2>About</h2>
 
 <p>
@@ -28,6 +30,8 @@ NOTE: This document is mostly a collection of notes that I started making while 
 spec writing process. It does not currently cover everything, but rather only those things that I've bumped into so far.
 It's written as a set of recommendations, even though this is not official documentation.
 </div>
+
+
 
 <h2>Introduction</h2>
 
@@ -75,6 +79,8 @@ and Bikeshed, some of the information might be more properly located in other lo
 It's possible that some information presented here will move into other locations in the future.
 </p>
 
+
+
 <h2>Sequential algorithm steps</h2>
 
 <p>
@@ -93,6 +99,8 @@ Some spec editors prefer to explicitly number the items 1, 2, 3 to make the Bike
 to read, but the recommendation here is to use <code>1.</code> everywhere to make it easier to insert new steps at the
 beginning or middle of the algorithm.
 </p>
+
+
 
 <h2>Concept Types and Objects</h2>
 
@@ -168,6 +176,8 @@ Note that if you are adding multiple definitions for the same object, you can se
 &lt;/div>
 </pre>
 
+
+
 <h2>Internal Slots</h2>
 
 <p>
@@ -222,6 +232,8 @@ The &lt;dfn attribute for=Television>channel&lt;/dfn> IDL attribute's setter, gi
 When the + button on the remote is pressed, increase [=television/current channel=] of the associated [=television=] by 1.
 </div>
 
+
+
 <h2>Local variables</h2>
 
 <p>
@@ -240,6 +252,8 @@ Update already created variables with "set".
 1. Set |x| to null.
 </pre>
 
+
+
 <h2>Variable Types</h2>
 
 <p>
@@ -255,6 +269,8 @@ Boolean:
 <div class="note">
 NOTE: Many specs use "flags" which you "set" and "clear" and check for being "set" or "not set". Newer specs are starting to use "boolean". Existing specs that use flags may be converted at some point.
 </div>
+
+
 
 <h2>Returning a value</h2>
 
@@ -326,7 +342,12 @@ Or simply:
 	1. Set |some-var| to true.
 </pre>
 
+
+
 <h2>Switch</h2>
+<div class="examples">
+Spec examples: See <a href="https://w3c.github.io/IndexedDB/#evaluate-a-key-path-on-a-value">IndexedDB</a>
+</div>
 
 <p>
 In some cases it may be more readable to list a set of choices rather than using if/else steps. 
@@ -387,6 +408,8 @@ The cases can be more complicated than simple values e.g. ranges, referencing li
 NOTE: In various spec stylesheets, the "switch" class generates ↪ (U+21AA RIGHTWARDS ARROW WITH HOOK) using CSS ::before content.
 </div>
 
+
+
 <h2>Ternary Operator</h2>
 
 <p>
@@ -396,6 +419,8 @@ The compact ternary operator:
 <pre class="codeblock">
 1. Set |x| to 1 if some-condition, or 2 otherwise.
 </pre>
+
+
 
 <h2>Conditions</h2>
 
@@ -418,6 +443,8 @@ For conditions with complex data types, use "equals" and make sure it is linked 
 <div class="note">
 NOTE: <code>[=url/equals=]</code> is a Bikeshed shortcut for <code>&lt;a for="url">equals&lt;/a></code>.
 </div>
+
+
 
 <h2>For Each</h2>
 
@@ -460,6 +487,8 @@ you can use "for each … whose …":
 1. [=For each=] |e| in |entry-list| whose {{type}} is "t", set |e|'s {{start}} to 0.
 </pre>
 
+
+
 <h2>Exiting</h2>
 
 <p>
@@ -494,6 +523,8 @@ The exit action can be appended to another action.
 1.  Set |x| to false and abort these steps.
 </pre>
 
+
+
 <h2>Asynchronous tasks</h2>
 
 <p>
@@ -524,6 +555,7 @@ meaning of this phrase.
 See <a href="https://github.com/garykac/procspec/issues/6">Issue #6</a>. 
 </div>
 </div>
+
 
 
 <h3>Running on the Background Thread</h3>
@@ -564,6 +596,8 @@ Elsewhere in the algorithm, to block on this task, use "wait".
 Wait for |task| to have executed.
 </pre>
 
+
+
 <h2>Promises</h2>
 
 <p>
@@ -597,6 +631,8 @@ To reject a promise, use "reject" with the error.
 <pre class="codeblock">
 1. Reject |promise| with an "AnError" DOMException.
 </pre>
+
+
 
 <h2>Defining Functions</h2>
 
@@ -638,6 +674,7 @@ If there is input, but no output, then use "None" for output.
 </pre>
 
 
+
 <h2>Calling Functions</h2>
 
 <p>
@@ -672,6 +709,8 @@ or (naming each argument):
 1. Let |result| be the result of running [=FunctionName=] with |name| as "Kringle" and |isJolly| as true.
 </div>
   
+
+
 <h2>Global Objects</h2>
 
 <p>
@@ -681,6 +720,8 @@ For some global Concept Objects, it is important to make sure that they are defi
 <p>
 Here are some common locations considered for global objects:
 </p>
+
+
 
 <h3>User Agent</h3>
 
@@ -693,6 +734,8 @@ This makes the object the same for the entire browser (across all tabs and web p
 <p>
 Placing an object here makes it available to every page that is navigated to within that browsing context, even to cross-origin sites. This is also probably not where you want to place web platform objects.
 </p>
+
+
 
 <h3>Window/Navigator</h3>
 
@@ -708,6 +751,8 @@ Consider the following scenarios:
 <li>Inject into about:blank and then navigate: Objects <b>are</b> preserved.</li>
 <li>document.open(): Objects <b>are not</b> preserved (because the Window is re-created)</li>
 </ul>
+
+
 
 <h3>Document</h3>
 
