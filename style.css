@@ -43,7 +43,7 @@ code {
 
 .note {
     background: #f0fff0;
-    margin: 0.5em;
+    margin: 0.5em 0;
     padding: 0.5em;
     border: 0.5em;
     border-left-style: solid;
@@ -52,7 +52,7 @@ code {
 
 .issue {
     background: #fff0f0;
-    margin: 0.5em;
+    margin: 0.5em 0;
     padding: 0.5em;
     border: 0.5em;
     border-left-style: solid;
