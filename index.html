@@ -256,9 +256,7 @@ Update already created variables with "set".
 
 <h2>Variable Types</h2>
 
-<p>
-Boolean:
-</p>
+<h3>Boolean</h3>
 
 <ul>
 	<li>To create booleans: "Let |x| be a boolean initially set to true." (or false)</li>
@@ -270,6 +268,34 @@ Boolean:
 NOTE: Many specs use "flags" which you "set" and "clear" and check for being "set" or "not set". Newer specs are starting to use "boolean". Existing specs that use flags may be converted at some point.
 </div>
 
+<h3>Strings and Mutability</h3>
+
+<p>
+Many specs include steps like:
+</p>
+
+<pre class="codeblock">
+1. lowercase x
+</pre>
+
+<p>
+where <code>x</code> is a string. Note that this implies that <code>x</code> is mutable.
+An alternate way of writing this is:
+</p>
+
+<pre class="codeblock">
+1. set x to be the result of lowercasing x
+</pre>
+
+<p>
+which does not assume that <code>x</code> is mutable. To avoid unintended side-effects,
+don't use mutable strings when the scope of the variable extends outside the current
+function.
+</p>
+
+<div class="note">
+NOTE: See <a href="https://github.com/whatwg/infra/issues/91">whatwg/infra/91</a> for further discussion.
+</div>
 
 
 <h2>Returning a value</h2>

@@ -23,6 +23,13 @@ h1 {
 
 h2 {
 	font-size: 1.4em;
+	margin: 3em 0 1em 0;
+	padding: 0.5em 0 0 0;
+	border-top: 1px dotted #808080;
+}
+
+h3 {
+	font-size: 1.2em;
 	margin: 2em 0 1em 0;
 }
 
