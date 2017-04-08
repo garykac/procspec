@@ -110,7 +110,7 @@ presented as a definition, for example:
 </p>
 
 <div class="codeblock">
-The user agent has a <dfn>really useful object</dfn> that ...
+The user agent has a &lt;dfn>really useful object&lt;/dfn> that ...
 </div>
 
 <p>
@@ -131,6 +131,27 @@ NOTE: You could also wrap types/objects with a simple <code>&lt;a></code> tag an
 but the <code>[=</code>square bracket<code>=]</code> notation is easier to read and allows concise use of <code>[=for/term=]</code> for
 scoped definitions.
 </div>
+
+<h3>Adjusting Definition Names</h3>
+
+<p>
+Sometimes, when referencing these definitions, you'll want to adjust the name to avoid awkward
+grammatical constructions or to make the text read more smoothly.
+For example, you may define <code>&lt;dfn>is valid&lt;/dfn></code>, but want to
+reference that definition in "The value must be valid".
+</p>
+
+<p>
+This can be accomplished as follows:
+</p>
+
+<pre class="codeblock">
+The value must be [=is valid|valid=].
+</pre>
+
+<p>
+where the desired display text is given at the end, separated by a <code>|</code>.
+</p>
 
 <h3>Scoping Definitions</h3>
 
