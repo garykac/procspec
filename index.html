@@ -824,10 +824,17 @@ Consider the following scenarios:
 <li>document.open(): Objects <b>are</b> preserved</li>
 </ul>
 
-<div class="issue">
-ISSUE: What about global objects for Workers? (for APIs exposed to both Windows and Workers).
-See <a href="https://github.com/garykac/procspec/issues/10">Issue #10</a>.
-</div>
+
+<h2>ServiceWorkers</h2>
+
+<p>
+Navigator objects that are intended to be available for ServiceWorkers need to be added to ServiceNavigator.
+In most cases, this means that the object will need to be added to both Navigator and ServiceNavigator.
+</p>
+
+<p>
+See <a href="https://w3c.github.io/permissions/#navigator-and-workernavigator-extension">this example</a>.
+</p>
 
 </body>
 </html>
