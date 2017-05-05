@@ -358,26 +358,27 @@ Any number of "else-if" clauses can be added, each one numbered at the same leve
 </pre>
 
 <p>
-If multiple actions need to occur, then "substeps" can be specified.
+If multiple actions need to occur, then sub-steps can be specified.
 </p>
 
 <pre class="codeblock">
-1. If |x| is "some-value", run the following substeps:
+1. If |x| is "some-value", then:
 	1. Set |some-var| to true.
 	1. Set |some-other-var| to false.
-1. Else if |x| is "other-value", run the following substeps:
+1. Else if |x| is "other-value", then:
 	1. Set |some-var| to false.
 	1. Set |some-other-var| to true.
 </pre>
 
-<p>
-Or simply:
-</p>
-
+<div class="note">
+NOTE: You may encounter specifications which refer to running "substeps", for example:
 <pre class="codeblock">
-1. If |x| is "some-value", then
+1. If |x| is "some-value", run the following substeps:
 	1. Set |some-var| to true.
+	1. Set |some-other-var| to true.
 </pre>
+However, this phrasing is now discouraged in favor of the more concise "then".
+</div>
 
 
 
@@ -391,7 +392,7 @@ In some cases it may be more readable to list a set of choices rather than using
 </p>
 
 <pre class="codeblock">
-1. Switch on |style| and run the associated substeps:
+1. Switch on |style| and run the associated steps:
 	&lt;dl class=switch>
 		&lt;dt>"prose"&lt;/dt>
 		&lt;dd>
@@ -494,7 +495,7 @@ Simple "for each" constructions can be placed on a single line.
 </pre>
 
 <p>
-For more complex actions, use a colon and add indented substeps.
+For more complex actions, use a colon and add indented sub-steps.
 </p>
 
 <pre class="codeblock">
@@ -578,7 +579,7 @@ background thread, use the "in parallel" construction:
 </p>
 
 <pre class="codeblock">
-1. Run these substeps [=in parallel=]:
+1. Run these steps [=in parallel=]:
 	1. step-1
 	1. step-2
 </pre>
@@ -590,7 +591,7 @@ steps on the main thread.
 </p>
 
 <div class="note">
-NOTE: In English, the construction "run these substeps in parallel: A, B, C" means
+NOTE: In English, the construction "run these steps in parallel: A, B, C" means
 "run A, B and C in parallel with each other". However, in specifications, it has the
 specific meaning of running A, B and C sequentially on a background thread (that runs in
 parallel with the main thread).
@@ -618,7 +619,7 @@ Background tasks can create other background tasks (using the "in parallel" cons
 </p>
 
 <pre class="codeblock">
-1. [=Queue a task=] that runs the following substeps:
+1. [=Queue a task=] that runs the following steps:
 	1. step-1
 	1. step-2
 </pre>
@@ -628,7 +629,7 @@ If you need to refer to this task elsewhere, it can be introduced as a local var
 </p>
 
 <pre class="codeblock">
-[=Queue a task=] |task| that runs the following substeps:
+[=Queue a task=] |task| that runs the following steps:
 	1. step-1
 	1. step-2
 </pre>
