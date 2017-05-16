@@ -81,7 +81,32 @@ It's possible that some information presented here will move into other location
 
 
 
-<h2>Sequential algorithm steps</h2>
+<h2>Writing Algorithms</h2>
+
+<p>
+Create an algorithm <code>&lt;div&gt;</code> to contain your algorithm steps. This will add nice default
+styling to make the algorithms easier to read.
+</p>
+
+
+<pre class="codeblock">
+&lt;div class="algorithm" data-algorithm="my-amazing-algorithm"&gt;
+  ...your algorithm steps here...
+&lt;/div&gt;
+</pre>
+
+<p>
+Give each of your algorithms a unique <code>data-algorithm</code> name.
+</p>
+
+<p>
+In addition to making the algorithm pretty, Bikeshed will also detect these algorithm
+blocks and do a bit of error checking to make sure that you don't have unused variables
+in your algorithm.
+</p>
+
+
+<h3>Sequential algorithm steps</h3>
 
 <p>
 All algorithm steps are implicitly sequential and each step must begin with <code>1.</code> so that they are auto-numbered.
@@ -258,7 +283,8 @@ When the + button on the remote is pressed, increase [=television/current channe
 <h2>Local variables</h2>
 
 <p>
-When a variable is introduced (usually at the start of the algorithm, but may occur in the middle), use "let".
+When a variable is introduced (usually at the start of the algorithm, but may occur in
+the middle), use "let" and surround the variable name with <code>|</code>vertical bars<code>|</code>.
 </p>
 
 <pre class="codeblock">
@@ -273,6 +299,11 @@ Update already created variables with "set".
 1. Set |x| to null.
 </pre>
 
+
+<div class="note">
+NOTE: You could also wrap variable names with a <code>&lt;var></code> tag and Bikeshed will recognize that as well,
+but the <code>|</code>vertical bar<code>|</code> notation makes the algorithm easier to read.
+</div>
 
 
 <h2>Variable Types</h2>
