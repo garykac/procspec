@@ -126,6 +126,47 @@ beginning or middle of the algorithm.
 </p>
 
 
+<h2 id="domintro">Adding a domintro</h2>
+
+<p>
+After any IDL block, it is important to include a section with a short, non-normative
+description for each property defined in the IDL.
+This section, known colloquially as a "domintro", should occur immediately after the IDL
+block it describes.
+</p>
+
+<p>
+See <a href="https://html.spec.whatwg.org/multipage/comms.html#the-messageevent-interface">The MessageEvent interface</a>
+for a good example of this practice.
+</p>
+
+<p>
+These descriptive blocks are especially important for algorithmic specifications because
+web developers tend to find these algorithms to be hard to read (which makes them less accessible).
+Note that the descriptions in the domintro section are likely to be extracted from 
+the specification and include in external documentation (like
+<a href="https://developer.mozilla.org/en-US/">MDN</a>).
+</p>
+
+<p>
+The suggested markup to a domintro block is as follows:
+</p>
+
+<pre class="codeblock">
+&lt;dl class="domintro">
+  &lt;dt>&lt;code>property&lt;/code>
+  &lt;dd>
+    &lt;p>Brief summary of property
+&lt;/dl>
+</pre>
+
+<p>
+The underlying CSS for this may eventually be included in the default stylesheet, but in
+the meantime you can copy <a href="#domintro-css">this CSS from the appendix</a> into
+your spec.
+</p>
+
+
 
 <h2>Concept Types and Objects</h2>
 
@@ -787,7 +828,6 @@ or (naming each argument):
 </div>
   
 
-
 <h2 id="global-objects">Global Objects</h2>
 
 <p>
@@ -867,6 +907,49 @@ In most cases, this means that the object will need to be added to both <code>Na
 <p>
 See <a href="https://w3c.github.io/permissions/#navigator-and-workernavigator-extension">this example</a>.
 </p>
+
+
+<h2 id="domintro-css">Appendix A - CSS for domintro</h2>
+
+<p>
+Include this style block near the top of your Bikeshed file (see
+<a href="https://github.com/domenic/async-local-storage/blob/650bbe92f971dca1fc56f3597c9887c309761a92/spec.bs#L89-L117">Async Local Storage</a>
+for an example).
+</p>
+
+<pre class="codeblock">
+&lt;style>
+/* domintro from https://resources.whatwg.org/standard.css */
+dl.domintro {
+  position: relative;
+  color: green;
+  background: #DDFFDD;
+  margin: 2.5em 0 2em 0;
+  padding: 1.5em 1em 0.5em 2em;
+}
+dl.domintro dt, dl.domintro dt * {
+  color: black;
+  font-size: inherit;
+}
+dl.domintro dd {
+  margin: 0.5em 0 1em 2em; padding: 0;
+}
+dl.domintro dd p {
+  margin: 0.5em 0;
+}
+dl.domintro::before {
+  content: 'For web developers (non-normative)';
+  background: green;
+  color: white;
+  padding: 0.15em 0.25em;
+  font-style: normal;
+  position: absolute;
+  top: -0.8em;
+  left: -0.8em;
+}
+&lt;/style>
+</pre>
+
 
 </body>
 </html>
