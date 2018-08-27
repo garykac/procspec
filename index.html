@@ -126,7 +126,40 @@ beginning or middle of the algorithm.
 </p>
 
 
-<h2 id="domintro">Adding a domintro</h2>
+
+<h2 id="writing-idl">Writing IDL</h2>
+
+<h3 id="domintro">Use &lt;xmp&gt; for IDL blocks</h3>
+
+<p>
+The <code>&lt;xmp&gt;</code> tag is a deprecated HTML element that Bikeshed recommends as a replacement
+wherever you might want to use the <code>&lt;pre&gt;</code> tag.
+</p>
+
+<p>
+Within an <code>&lt;xmp&gt;</code> tag, you do not need to HTML-escape &amp; and &lt; characters.
+</p>
+
+<p>
+This is useful for IDL blocks because it means you don't have to write:
+</p>
+
+<pre class="codeblock">
+interface Clipboard : EventTarget {
+	Promise&amp;lt;DataTransfer> read();
+};
+</pre>
+
+<p>
+You can write <code>Promise&lt;DataTransfer></code> directly, without escaping the &lt; character.
+</p>
+
+<p>
+See <a href="https://tabatkins.github.io/bikeshed/#xmp">Bikeshed's xmp documentation</a> for more info.
+</p>
+
+<h3 id="domintro">Adding a domintro</h3>
+
 
 <p>
 After any IDL block, it is important to include a section with a short, non-normative
@@ -164,6 +197,61 @@ The suggested markup for a domintro block is as follows:
 The underlying CSS for this may eventually be included in the default stylesheet, but in
 the meantime you can copy <a href="#domintro-css">this CSS</a> into your spec.
 </p>
+
+
+<h3>Internal Slots</h3>
+
+<p>
+In IDL you define attributes, but in a procedural spec you should refer to "internal slot"s that hold
+the raw values associated with those attributes.
+</p>
+
+<p>
+As an example, given the following IDL:
+</p>
+
+<pre class="codeblock">
+Interface Television {
+	attribute unsigned short channel;
+	readonly attribute boolean supportsHighDefinition;
+};
+</pre>
+
+<p>
+A procedural spec would describe this by:
+</p>
+
+<p>
+(1) <b>defining an "internal slot"</b> for the channel value:
+</p>
+
+<div class="codeblock">
+A [=television=] has a &lt;dfn for=television>current channel&lt;/dfn> which is a positive integer, initially 3.
+</div>
+
+<p>
+(2) specifying that the IDL attribute's <b>getter</b> should return the value in the internal slot:
+</p>
+
+<div class="codeblock">
+The &lt;dfn attribute for=Television>channel&lt;/dfn> IDL attribute's getter must return the television object’s [=television/current channel=].
+</div>
+
+<p>
+(3) specifying that the IDL attribute's <b>setter</b> should update the value in the internal slot (not for readonly attributes!):
+</p>
+
+<div class="codeblock">
+The &lt;dfn attribute for=Television>channel&lt;/dfn> IDL attribute's setter, given |value|, must set the television object’s [=television/current channel=] to |value|.
+</div>
+
+<p>
+(4) making sure that all operations in the spec <b>refer to the internal slot</b> rather than the IDL attribute:
+</p>
+
+<div class="codeblock">
+When the + button on the remote is pressed, increase [=television/current channel=] of the associated [=television=] by 1.
+</div>
 
 
 
@@ -261,62 +349,6 @@ Note that if you are adding multiple definitions for the same object, you can se
 	A [=television=] has a &lt;dfn>resolution&lt;/dfn> …
 &lt;/div>
 </pre>
-
-
-
-<h2>Internal Slots</h2>
-
-<p>
-In IDL you define attributes, but in a procedural spec you should refer to "internal slot"s that hold
-the raw values associated with those attributes.
-</p>
-
-<p>
-As an example, given the following IDL:
-</p>
-
-<pre class="codeblock">
-Interface Television {
-	attribute unsigned short channel;
-	readonly attribute boolean supportsHighDefinition;
-};
-</pre>
-
-<p>
-A procedural spec would describe this by:
-</p>
-
-<p>
-(1) <b>defining an "internal slot"</b> for the channel value:
-</p>
-
-<div class="codeblock">
-A [=television=] has a &lt;dfn for=television>current channel&lt;/dfn> which is a positive integer, initially 3.
-</div>
-
-<p>
-(2) specifying that the IDL attribute's <b>getter</b> should return the value in the internal slot:
-</p>
-
-<div class="codeblock">
-The &lt;dfn attribute for=Television>channel&lt;/dfn> IDL attribute's getter must return the television object’s [=television/current channel=].
-</div>
-
-<p>
-(3) specifying that the IDL attribute's <b>setter</b> should update the value in the internal slot (not for readonly attributes!):
-</p>
-
-<div class="codeblock">
-The &lt;dfn attribute for=Television>channel&lt;/dfn> IDL attribute's setter, given |value|, must set the television object’s [=television/current channel=] to |value|.
-</div>
-
-<p>
-(4) making sure that all operations in the spec <b>refer to the internal slot</b> rather than the IDL attribute:
-</p>
-
-<div class="codeblock">
-When the + button on the remote is pressed, increase [=television/current channel=] of the associated [=television=] by 1.
-</div>
 
 
 
