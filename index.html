@@ -92,10 +92,10 @@ A typical browser implementation interacts with script as follows:
 
 <ol>
   <li>A <em>script engine</em> executes a line of JavaScript code.</li>
-  <li>A <em>bindings layer</em> translates this into a call on a C++ object, translating the input types from script to C++.</li>
+  <li>A <em>bindings layer</em> translates this into a call on an internal object (generally C++ or Rust), translating the input types from script to internal types.</li>
   <li>If the input is not valid, the <em>script engine</em> is told to throw an exception.</li>
-  <li>Otherwise, the C++ <em>implementation</em> processes the input and returns the output.</li>
-  <li>The <em>bindings layer</em> translates that C++ output back into JavaScript result.</li>
+  <li>Otherwise, the <em>implementation</em> processes the input and returns the output.</li>
+  <li>The <em>bindings layer</em> translates that output from internal types into a JavaScript result.</li>
   <li>Execution continues in the <em>script engine</em> with the result.</li>
 </ol>
 
