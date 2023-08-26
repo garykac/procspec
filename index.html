@@ -80,29 +80,72 @@ It's possible that some information presented here will move into other location
 </p>
 
 
+<h2>Processing Model</h2>
+
+<p>
+Many procedural specifications deal with data passing from script into some browser function where it is processed, and then some output is returned back into script. For both specifications and browser implementations, it is important to understand how different languages participate in this.
+</p>
+
+<p>
+A typical browser implementation interacts with script as follows:
+</p>
+
+<ol>
+  <li>A <em>script engine</em> executes a line of JavaScript code.</li>
+  <li>A <em>bindings layer</em> translates this into a call on an internal object (generally C++ or Rust), translating the input types from script to internal types.</li>
+  <li>If the input is not valid, the <em>script engine</em> is told to throw an exception.</li>
+  <li>Otherwise, the <em>implementation</em> processes the input and returns the output.</li>
+  <li>The <em>bindings layer</em> translates that output from internal types into a JavaScript result.</li>
+  <li>Execution continues in the <em>script engine</em> with the result.</li>
+</ol>
+
+<p>
+Specifications define the required <em>implementation</em> behavior using abstract concepts so that they can be written in any programming language (C++, Rust, etc). The language for those abstract concepts is defined by <a href="https://infra.spec.whatwg.org/">Infra</a>. This includes <a href="https://infra.spec.whatwg.org/#algorithms">algorithms</a>, <a href="https://infra.spec.whatwg.org/#primitive-data-types">primitive data types</a> such as numbers and strings, and <a href="https://infra.spec.whatwg.org/#data-structures">data structures</a> such as lists and maps.
+</p>
+
+<p>
+The work of the <em>bindings layer</em> is defined by <a href="https://webidl.spec.whatwg.org/">Web IDL</a>, which specifies how to translate JavaScript values into Infra types and back. Therefore, when writing a specification, you craft the Web IDL to define the API that JavaScript interacts with, but you write procedures in terms of Infra algorithms and types.
+</p>
+
+<p>Notes:</p>
+
+<ul>
+  <li>Outside of Web IDL fragments, specification text only needs to describe the behavior of the fourth step in the list above. Web IDL takes care of ensuring that an implementation is not presented with incorrect types.</li>
+  <li>Algorithms that operate on objects defined by Web IDL interfaces&mdash;either the "this" object or those passed as an argument&mdash;do reference the type named in Web IDL (e.g. <code>HTMLElement</code>). But it is important to note that they do not interact with it in the same way that script does; for example, they do not access properties or call methods on them.</li>
+  <li>Non-interface Web IDL types have some surprising subtlety:
+    <ul>
+      <li>Enumerations are expressed in script simply as strings. Web IDL guarantees that implementations only need to consider valid members.</li>
+      <li>Dictionaries are typically expressed in script as object literals. Web IDL defines the very rigorous steps in which the properties of these objects are inspected and extracted, and implementations only interact with the dictionary as an Infra <a href="https://infra.spec.whatwg.org/#ordered-map">ordered map</a>.</li>
+      <li>Sequences are expressed in script as arrays or iterables. Web IDL converts these to <a href="https://infra.spec.whatwg.org/#lists">lists</a>.</li>
+    </ul>
+  </li>
+  <li>Wherever possible, link from your specification text to terms in Infra: types, such as <a href="https://infra.spec.whatwg.org/#lists">lists</a>, properties such as <a href="https://infra.spec.whatwg.org/#list-size">size</a>, and operations such as <a href="https://infra.spec.whatwg.org/#list-append">append</a>. This helps avoid ambiguity about the procedure you are defining, and helps you as the author think in terms of the types.</li>
+</ul>
+ 
+
+<div class="note">
+NOTE: There are exceptional cases where some specifications need to deal directly with JavaScript types or properties of JavaScript objects. This should be a last resort, and done only after very careful consultation with experts. Writing this kind of specification correctly is <em>much</em> trickier than you can imagine.
+</div>
 
 <h2>Writing Algorithms</h2>
 
 <p>
-Create an algorithm <code>&lt;div&gt;</code> to contain your algorithm steps. This will add nice default
-styling to make the algorithms easier to read.
+Create an algorithm <code>&lt;div&gt;</code> to contain your algorithm steps by including an <code>algorithm</code> attribute. This will add nice default styling to make the algorithms easier to read. In most cases, you should use <code>&lt;dfn&gt;</code> to create a definition, which will name the algorithm.
 </p>
 
 
 <pre class="codeblock">
-&lt;div class="algorithm" data-algorithm="my-amazing-algorithm"&gt;
+&lt;div algorithm&gt;
+  To &lt;dfn&gt;do a thing&lt;/dfn&gt;:
+
   ...your algorithm steps here...
 &lt;/div&gt;
 </pre>
 
 <p>
-Give each of your algorithms a unique <code>data-algorithm</code> name.
-</p>
-
-<p>
 In addition to making the algorithm pretty, Bikeshed will also detect these algorithm
 blocks and do a bit of error checking to make sure that you don't have unused variables
-in your algorithm.
+in your algorithm. Learn more about variables below.
 </p>
 
 
