@@ -1490,7 +1490,18 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 82ce88815, updated Thu Sep 7 16:33:55 2023 -0700" name="generator">
   <link href="https://garykac.github.io/procxpec" rel="canonical">
-  <meta content="abc225e51423a826922f4794bf5e700cb8423eed" name="document-revision">
+  <meta content="ba95fb637026d02e5d73808d84e770aa924ee225" name="document-revision">
+<style>
+code, pre, pre.highlight {
+    background-color: #f8f8ff;
+}
+pre, pre.highlight {
+    white-space: pre-wrap;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin: 1em 0;
+}
+</style>
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
     color: var(--a-normal-text);
@@ -1553,13 +1564,6 @@ pre .property::before, pre .property::after {
     white-space: pre;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --selflink-text: black;
-        --selflink-bg: silver;
-        --selflink-hover-text: white;
-    }
-}
 </style>
 <style>/* Boilerplate: style-colors */
 
@@ -1671,117 +1675,6 @@ pre .property::before, pre .property::after {
     --editedrec-bg: darkorange;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --text: #ddd;
-        --bg: black;
-
-        --unofficial-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='%23100808' transform='translate(200 200) rotate(-45) translate(-200 -200)' stroke='%23100808' stroke-width='3'%3E%3Ctext x='50%25' y='220' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EUNOFFICIAL%3C/text%3E%3Ctext x='50%25' y='305' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EDRAFT%3C/text%3E%3C/g%3E%3C/svg%3E");
-
-        --logo-bg: #1a5e9a;
-        --logo-active-bg: #c00;
-        --logo-text: white;
-
-        --tocnav-normal-text: #999;
-        --tocnav-normal-bg: var(--bg);
-        --tocnav-hover-text: var(--tocnav-normal-text);
-        --tocnav-hover-bg: #080808;
-        --tocnav-active-text: #f44;
-        --tocnav-active-bg: var(--tocnav-normal-bg);
-
-        --tocsidebar-text: var(--text);
-        --tocsidebar-bg: #080808;
-        --tocsidebar-shadow: rgba(255,255,255,.1);
-        --tocsidebar-heading-text: hsla(203,20%,40%,.7);
-
-        --toclink-text: var(--text);
-        --toclink-underline: #6af;
-        --toclink-visited-text: var(--toclink-text);
-        --toclink-visited-underline: #054572;
-
-        --heading-text: #8af;
-
-        --hr-text: var(--text);
-
-        --algo-border: #456;
-
-        --del-text: #f44;
-        --del-bg: transparent;
-        --ins-text: #4a4;
-        --ins-bg: transparent;
-
-        --a-normal-text: #6af;
-        --a-normal-underline: #555;
-        --a-visited-text: var(--a-normal-text);
-        --a-visited-underline: var(--a-normal-underline);
-        --a-hover-bg: rgba(25%, 25%, 25%, .2);
-        --a-active-text: #f44;
-        --a-active-underline: var(--a-active-text);
-
-        --borderedblock-bg: rgba(255, 255, 255, .05);
-
-        --blockquote-border: silver;
-        --blockquote-bg: var(--borderedblock-bg);
-        --blockquote-text: currentcolor;
-
-        --issue-border: #e05252;
-        --issue-bg: var(--borderedblock-bg);
-        --issue-text: var(--text);
-        --issueheading-text: hsl(0deg, 70%, 70%);
-
-        --example-border: hsl(50deg, 90%, 60%);
-        --example-bg: var(--borderedblock-bg);
-        --example-text: var(--text);
-        --exampleheading-text: hsl(50deg, 70%, 70%);
-
-        --note-border: hsl(120deg, 100%, 35%);
-        --note-bg: var(--borderedblock-bg);
-        --note-text: var(--text);
-        --noteheading-text: hsl(120, 70%, 70%);
-        --notesummary-underline: silver;
-
-        --assertion-border: #444;
-        --assertion-bg: var(--borderedblock-bg);
-        --assertion-text: var(--text);
-
-        --advisement-border: orange;
-        --advisement-bg: #222218;
-        --advisement-text: var(--text);
-        --advisementheading-text: #f84;
-
-        --warning-border: red;
-        --warning-bg: hsla(40,100%,20%,0.95);
-        --warning-text: var(--text);
-
-        --amendment-border: #330099;
-        --amendment-bg: #080010;
-        --amendment-text: var(--text);
-        --amendmentheading-text: #cc00ff;
-
-        --def-border: #8ccbf2;
-        --def-bg: #080818;
-        --def-text: var(--text);
-        --defrow-border: #136;
-
-        --datacell-border: silver;
-
-        --indexinfo-text: #aaa;
-
-        --indextable-hover-text: var(--text);
-        --indextable-hover-bg: #181818;
-
-        --outdatedspec-bg: rgba(255, 255, 255, .5);
-        --outdatedspec-text: black;
-        --outdated-bg: maroon;
-        --outdated-text: white;
-        --outdated-shadow: red;
-
-        --editedrec-bg: darkorange;
-    }
-    /* In case a transparent-bg image doesn't expect to be on a dark bg,
-       which is quite common in practice... */
-    img { background: white; }
-}
 </style>
 <style>/* Boilerplate: style-counters */
 body {
@@ -1811,59 +1704,6 @@ figcaption {
 figcaption:not(.no-marker)::before {
     content: "Figure " counter(figure) " ";
 }
-</style>
-<style>/* Boilerplate: style-dfn-panel */
-:root {
-    --dfnpanel-bg: #ddd;
-    --dfnpanel-text: var(--text);
-}
-@media (prefers-color-scheme: dark) {
-    :root {
-        --dfnpanel-bg: #222;
-        --dfnpanel-text: var(--text);
-    }
-}
-.dfn-panel {
-    position: absolute;
-    z-index: 35;
-    width: 20em;
-    width: 300px;
-    height: auto;
-    max-height: 500px;
-    overflow: auto;
-    padding: 0.5em 0.75em;
-    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: var(--dfnpanel-bg);
-    color: var(--dfnpanel-text);
-    border: outset 0.2em;
-    white-space: normal; /* in case it's moved into a pre */
-}
-.dfn-panel:not(.on) { display: none; }
-.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
-.dfn-panel > b { display: block; }
-.dfn-panel a { color: var(--dfnpanel-text); }
-.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
-.dfn-panel > b + b { margin-top: 0.25em; }
-.dfn-panel ul { padding: 0 0 0 1em; list-style: none; }
-.dfn-panel li a {
-    white-space: pre;
-    display: inline-block;
-    max-width: calc(300px - 1.5em - 1em);
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.dfn-panel.activated {
-    display: inline-block;
-    position: fixed;
-    left: .5em;
-    bottom: 2em;
-    margin: 0 auto;
-    max-width: calc(100vw - 1.5em - .4em - .5em);
-    max-height: 30vh;
-}
-
-.dfn-paneled[role="button"] { cursor: pointer; }
 </style>
 <style>/* Boilerplate: style-issues */
 a[href].issue-return {
@@ -1948,22 +1788,19 @@ dfn > a.self-link::before      { content: "#"; }
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1>Writing Procedural Specs <br><small>...for the Web Platform</small> <br><small>...using Bikeshed</small> </h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">Living Standard, <time class="dt-updated" datetime="2023-09-14">14 September 2023</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2023-09-15">15 September 2023</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
-     <dt>This version:
-     <dd><a class="u-url" href="https://garykac.github.io/procxpec">https://garykac.github.io/procxpec</a>
-     <dt>Issue Tracking:
-     <dd><a href="https://github.com/garykac/procspec/issues/">GitHub</a>
-     <dd><a href="#issues-index">Inline In Spec</a>
      <dt class="editor">Editor:
-     <dd class="editor p-author h-card vcard"><span class="p-name fn">Gary Kacmarcik</span>
+     <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:garykac@google.com">Gary Kacmarcik</a> (<a class="p-org org" href="https://google.com">Google</a>)
+     <dt>Relying heavily on the expertise of:
+     <dd>domenic@, jakearchibald@, jsbell@, ...
     </dl>
    </div>
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" height="15" src="https://licensebuttons.net/p/zero/1.0/80x15.png" width="80"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 14 September 2023,
+In addition, as of 15 September 2023,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -2034,13 +1871,6 @@ Parts of this work may be from another specification document.  If so, those par
      </ol>
     <li><a href="#service-workers"><span class="secno">19</span> <span class="content">ServiceWorkers</span></a>
     <li><a href="#domintro-css"><span class="secno"></span> <span class="content">Appendix A - CSS for domintro</span></a>
-    <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
-    <li>
-     <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
-     <ol class="toc">
-      <li><a href="#index-defined-here"><span class="secno"></span> <span class="content">Terms defined by this specification</span></a>
-      <li><a href="#index-defined-elsewhere"><span class="secno"></span> <span class="content">Terms defined by reference</span></a>
-     </ol>
     <li>
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
      <ol class="toc">
@@ -2137,7 +1967,7 @@ in your algorithm. Learn more about variables below.</p>
 1. step-2
 1. step-3
 </pre>
-   <p>Note that Bikeshed doesn’t require that the lines begin with <code>1.</code> -- any number followed by a <code>.</code> will work.
+   <p>Note that Bikeshed doesn’t require that the lines begin with <code>1.</code>—any number followed by a <code>.</code> will work.
 Some spec editors prefer to explicitly number the items 1, 2, 3 to make the Bikeshed source document easier
 to read, but the recommendation here is to use <code>1.</code> everywhere to make it easier to insert new steps at the
 beginning or middle of the algorithm.</p>
@@ -2145,13 +1975,13 @@ beginning or middle of the algorithm.</p>
    <h3 class="heading settled" data-level="4.1" id="xmp-for-idl"><span class="secno">4.1. </span><span class="content">Use <code>&lt;xmp></code> for IDL blocks</span><a class="self-link" href="#xmp-for-idl"></a></h3>
    <p>The <code>&lt;xmp></code> tag is a deprecated HTML element that Bikeshed recommends as a replacement
 wherever you might want to use the <code>&lt;pre></code> tag.</p>
-   <p>Within an <code>&lt;xmp></code> tag, you do not need to HTML-escape &amp; and &lt; characters.</p>
+   <p>Within an <code>&lt;xmp></code> tag, you do not need to HTML-escape <code>&amp;</code> and <code>&lt;</code> characters.</p>
    <p>This is useful for IDL blocks because it means you don’t have to write:</p>
 <pre>interface Clipboard : EventTarget {
     Promise&amp;lt;DataTransfer> read();
 };
 </pre>
-   <p>You can write <code>Promise&lt;DataTransfer></code> directly, without escaping the &lt; character.</p>
+   <p>You can write <code>Promise&lt;DataTransfer></code> directly, without escaping the <code>&lt;</code> character.</p>
    <p>See <a href="https://tabatkins.github.io/bikeshed/#xmp">Bikeshed’s xmp documentation</a> for more info.</p>
    <h3 class="heading settled" data-level="4.2" id="domintro"><span class="secno">4.2. </span><span class="content">Adding a domintro</span><a class="self-link" href="#domintro"></a></h3>
    <p>After any IDL block, it is important to include a section with a short, non-normative
@@ -2161,11 +1991,11 @@ block it describes.</p>
    <p>See <a href="https://html.spec.whatwg.org/multipage/comms.html#the-messageevent-interface">The MessageEvent interface</a> for a good example of this practice.</p>
    <p>These descriptive blocks are especially important for algorithmic specifications because
 web developers tend to find the algorithms harder to read (which makes them less accessible).
-Note that the descriptions in the domintro section are likely to be extracted from 
+Note that the descriptions in the domintro section are likely to be extracted from
 the specification and include in external documentation (like <a href="https://developer.mozilla.org/en-US/">MDN</a>).</p>
    <p>The suggested markup for a domintro block is as follows:</p>
 <pre>&lt;dl class="domintro">
-  &lt;dt>`property`
+  &lt;dt>&lt;code>property&lt;/code>
   &lt;dd>
     &lt;p>Brief summary of property
 &lt;/dl>
@@ -2183,21 +2013,16 @@ the raw values associated with those attributes.</p>
 </pre>
    <p>A procedural spec would describe this by:</p>
    <p>(1) <strong>defining an "internal slot"</strong> for the channel value:</p>
-<pre>A [=television=] has a &lt;dfn for=television>current channel&lt;/dfn> 
-which is a positive integer, initially 3.
+<pre>A [=television=] has a &lt;dfn for=television>current channel&lt;/dfn> which is a positive integer, initially 3.
 </pre>
    <p>(2) specifying that the IDL attribute’s <strong>getter</strong> should return the value in the internal slot:</p>
-<pre>The &lt;dfn attribute for=Television>channel&lt;/dfn> IDL attribute’s getter 
-must return the television object’s [=television/current channel=].
+<pre>The &lt;dfn attribute for=Television>channel&lt;/dfn> IDL attribute’s getter must return the television object’s [=television/current channel=].
 </pre>
    <p>(3) specifying that the IDL attribute’s <strong>setter</strong> should update the value in the internal slot (not for readonly attributes!):</p>
-<pre>The &lt;dfn attribute for=Television>channel&lt;/dfn> IDL attribute’s setter, 
-given |value|, must set the television object’s [=television/current channel=] 
-to |value|.
+<pre>The &lt;dfn attribute for=Television>channel&lt;/dfn> IDL attribute’s setter, given |value|, must set the television object’s [=television/current channel=] to |value|.
 </pre>
    <p>(4) making sure that all operations in the spec <strong>refer to the internal slot</strong> rather than the IDL attribute:</p>
-<pre>When the + button on the remote is pressed, increase [=television/current channel=] 
-of the associated [=television=] by 1.
+<pre>When the + button on the remote is pressed, increase [=television/current channel=] of the associated [=television=] by 1.
 </pre>
    <h2 class="heading settled" data-level="5" id="concept-types-and-objects"><span class="secno">5. </span><span class="content">Concept Types and Objects</span><a class="self-link" href="#concept-types-and-objects"></a></h2>
    <p>Types and objects that are required by the algorithm should be described outside the algorithm and should be
@@ -2215,7 +2040,7 @@ scoped definitions.</p>
    <h3 class="heading settled" data-level="5.1" id="adjusting-dfn-names"><span class="secno">5.1. </span><span class="content">Adjusting Definition Names</span><a class="self-link" href="#adjusting-dfn-names"></a></h3>
    <p>Sometimes, when referencing these definitions, you’ll want to adjust the name to avoid awkward
 grammatical constructions or to make the text read more smoothly.
-For example, you may define <code>&lt;dfn>is valid&amp;lt;/dfn></code>, but want to
+For example, you may define <code>&lt;dfn>is valid&lt;/dfn></code>, but want to
 reference that definition in "The value must be valid".</p>
    <p>This can be accomplished as follows:</p>
 <pre>The value must be [=is valid|valid=].
@@ -2320,7 +2145,7 @@ See <a href="https://github.com/garykac/procspec/issues/9">Issue #9</a>. </div>
         &lt;dt>"prose"&lt;/dt>
         &lt;dd>
             1. Append the string "old and busted" to the output.
-            1. Return false 
+            1. Return false
         &lt;/dd>
 
         &lt;dt>"algorithmic"&lt;/dt>
@@ -2340,7 +2165,7 @@ See <a href="https://github.com/garykac/procspec/issues/9">Issue #9</a>. </div>
     &lt;dl class=switch>
         &lt;dt>If |var| is a list and length is greater than 1&lt;/dt>
         &lt;dd>
-            ... 
+            ...
         &lt;/dd>
 
         &lt;dt>If |var| is a list and length is 1&lt;/dt>
@@ -2371,7 +2196,7 @@ See <a href="https://github.com/garykac/procspec/issues/9">Issue #9</a>. </div>
    <p>For conditions with complex data types, use "equals" and make sure it is linked to the text that defines equality for that data type. For example, for URLs:</p>
 <pre>1. If |thisURL| [=url/equals=] |requestURL|, …
 </pre>
-   <p class="note" role="note"><span class="marker">NOTE:</span> <code>[=url/equals=]</code> is a Bikeshed shortcut for <code>&lt;a for="url">equals&amp;lt;/a></code>.</p>
+   <p class="note" role="note"><span class="marker">NOTE:</span> <code>[=url/equals=]</code> is a Bikeshed shortcut for <code>&lt;a for="url">equals&lt;/a></code>.</p>
    <h2 class="heading settled" data-level="12" id="for-each"><span class="secno">12. </span><span class="content">For Each</span><a class="self-link" href="#for-each"></a></h2>
    <p>Simple "for each" constructions can be placed on a single line.</p>
 <pre>1. [=For each=] {{Entry}} |e| in |entry-list|, set |e|'s {{Entry/start}} to 0.
@@ -2450,9 +2275,9 @@ This sections provides only a brief high-level summary.</p>
 <pre>1. Let |promise| be a new [=promise=].
 </pre>
    <p>To resolve the promise with a value.</p>
-<pre>1. Resolve |promise| with |some-value|. 
+<pre>1. Resolve |promise| with |some-value|.
 
-1. Resolve |promise| with undefined. 
+1. Resolve |promise| with undefined.
 </pre>
    <p>To reject a promise, use "reject" with the error.</p>
 <pre>1. Reject |promise| with an "AnError" DOMException.
@@ -2469,7 +2294,7 @@ This sections provides only a brief high-level summary.</p>
 1. If name is "Nick" and |isJolly| is true, set |isSanta| to true.
 1. Return |isSanta|.
 </pre>
-   <p>Sometimes, the function name is written more formally using camelCase or InitialCaps. In this example, that could be something like <dfn data-dfn-type="dfn" data-noexport id="isreallysanta">isReallySanta<a class="self-link" href="#isreallysanta"></a></dfn>.</p>
+   <p>Sometimes, the function name is written more formally using camelCase or InitialCaps. In this example, that could be something like <em>isReallySanta</em>.</p>
    <p>If there are no input parameters to the function, the entire Input/Output block at the beginning is typically omitted.</p>
    <p>If there is input, but no output, then use "None" for output.</p>
 <pre>&lt;dfn>do something&lt;/dfn>
@@ -2482,22 +2307,15 @@ This sections provides only a brief high-level summary.</p>
    <h2 class="heading settled" data-level="17" id="calling-functions"><span class="secno">17. </span><span class="content">Calling Functions</span><a class="self-link" href="#calling-functions"></a></h2>
    <p>Functions without parameters are called as follows:</p>
 <pre>1. Let |result| be the result of running [=FunctionName=].
-
 </pre>
    <p>Functions with parameters:</p>
-<pre>1. Let |result| be the result of running [=FunctionName=] with 
-"Kringle" and true as the arguments.
-
+<pre>1. Let |result| be the result of running [=FunctionName=] with "Kringle" and true as the arguments.
 </pre>
    <p>or</p>
-<pre>1. Let |result| be the result of running [=FunctionName=] given 
-"Kringle" and true.
-
+<pre>1. Let |result| be the result of running [=FunctionName=] given "Kringle" and true.
 </pre>
    <p>or (naming each argument):</p>
-<pre>1. Let |result| be the result of running [=FunctionName=] with |name| 
-as "Kringle" and |isJolly| as true.
-
+<pre>1. Let |result| be the result of running [=FunctionName=] with |name| as "Kringle" and |isJolly| as true.
 </pre>
    <h2 class="heading settled" data-level="18" id="global-objects"><span class="secno">18. </span><span class="content">Global Objects</span><a class="self-link" href="#global-objects"></a></h2>
    <p>For some global Concept Objects, it is important to make sure that they are defined in the appropriate location to ensure that feature works as intended (and so that it is implemented in a compatible way in different implementations).</p>
@@ -2566,23 +2384,6 @@ dl.domintro::before {
 &lt;/style>
 </pre>
   </main>
-  <div data-fill-with="conformance">
-   <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
-   <p> Conformance requirements are expressed with a combination of descriptive assertions and RFC 2119 terminology.
-            The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL”
-            in the normative parts of this document
-            are to be interpreted as described in RFC 2119.
-            However, for readability,
-            these words do not appear in all uppercase letters in this specification. </p>
-   <p> All of the text of this specification is normative
-            except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">[RFC2119]</a> </p>
-   <p> Examples in this specification are introduced with the words “for example”
-            or are set apart from the normative text with <code>class="example"</code>, like this: </p>
-   <div class="example" id="example-example"><a class="self-link" href="#example-example"></a> This is an example of an informative example. </div>
-   <p> Informative notes begin with the word “Note”
-            and are set apart from the normative text with <code>class="note"</code>, like this: </p>
-   <p class="note" role="note"> Note, this is an informative note.</p>
-  </div>
 <script>
 (function() {
   "use strict";
@@ -2712,26 +2513,6 @@ dl.domintro::before {
 
 })();
 </script>
-  <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
-  <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
-  <ul class="index">
-   <li><a href="#isreallysanta">isReallySanta</a><span>, in § 16</span>
-  </ul>
-  <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
-  <ul class="index">
-   <li>
-    <a data-link-type="biblio">[ECMASCRIPT]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="96c4a495">lists</span>
-    </ul>
-   <li>
-    <a data-link-type="biblio">[Infra]</a> defines the following terms:
-    <ul>
-     <li><span class="dfn-paneled" id="53275e46">append</span>
-     <li><span class="dfn-paneled" id="84b454ff">ordered map</span>
-     <li><span class="dfn-paneled" id="0204d188">size</span>
-    </ul>
-  </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
@@ -2739,8 +2520,6 @@ dl.domintro::before {
    <dd><a href="https://tc39.es/ecma262/multipage/"><cite>ECMAScript Language Specification</cite></a>. URL: <a href="https://tc39.es/ecma262/multipage/">https://tc39.es/ecma262/multipage/</a>
    <dt id="biblio-infra">[Infra]
    <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/"><cite>Infra Standard</cite></a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
-   <dt id="biblio-rfc2119">[RFC2119]
-   <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
   </dl>
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
@@ -2760,359 +2539,3 @@ meaning of this phrase.
 See <a href="https://github.com/garykac/procspec/issues/6">Issue #6</a>. <a class="issue-return" href="#issue-01f40d82" title="Jump to section">↵</a></div>
    <div class="issue"> Is this section supposed to refer to <code>WorkerNavigator</code> ? <a class="issue-return" href="#issue-0e9b749d" title="Jump to section">↵</a></div>
   </div>
-<script>/* Boilerplate: script-dfn-panel */
-"use strict";
-{
-    const dfnsJson = window.dfnsJson || {};
-
-    function genDfnPanel({dfnID, url, dfnText, refSections, external}) {
-        return mk.aside({
-            class: "dfn-panel",
-            id: `infopanel-for-${dfnID}`,
-            "data-for": dfnID,
-            "aria-labelled-by":`infopaneltitle-for-${dfnID}`,
-            },
-            mk.span({id:`infopaneltitle-for-${dfnID}`, style:"display:none"},
-                `Info about the '${dfnText}' ${external?"external":""} reference.`),
-            mk.a({href:url}, url),
-            mk.b({}, "Referenced in:"),
-            mk.ul({},
-                ...refSections.map(section=>
-                    mk.li({},
-                        ...section.refs.map((ref, refI)=>
-                            [
-                                mk.a({
-                                    href: `#${ref.id}`
-                                    },
-                                    (refI == 0) ? section.title : `(${refI + 1})`
-                                ),
-                                " ",
-                            ]
-                        ),
-                    ),
-                ),
-            ),
-        );
-    }
-
-    function genAllDfnPanels() {
-        for(const panelData of Object.values(window.dfnpanelData)) {
-            const dfnID = panelData.dfnID;
-            const dfn = document.getElementById(dfnID);
-            if(!dfn) {
-                console.log(`Can't find dfn#${dfnID}.`, panelData);
-            } else {
-                const panel = genDfnPanel(panelData);
-                append(document.body, panel);
-                insertDfnPopupAction(dfn, panel)
-            }
-        }
-    }
-
-    document.addEventListener("DOMContentLoaded", ()=>{
-        genAllDfnPanels();
-
-        // Add popup behavior to all dfns to show the corresponding dfn-panel.
-        var dfns = queryAll('.dfn-paneled');
-        for(let dfn of dfns) { ; }
-
-        document.body.addEventListener("click", (e) => {
-            // If not handled already, just hide all dfn panels.
-            hideAllDfnPanels();
-        });
-    })
-
-
-    function hideAllDfnPanels() {
-        // Turn off any currently "on" or "activated" panels.
-        queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(el=>hideDfnPanel(el));
-    }
-
-    function showDfnPanel(dfnPanel, dfn) {
-        hideAllDfnPanels(); // Only display one at this time.
-        dfn.setAttribute("aria-expanded", "true");
-        dfnPanel.classList.add("on");
-        dfnPanel.style.left = "5px";
-        dfnPanel.style.top = "0px";
-        const panelRect = dfnPanel.getBoundingClientRect();
-        const panelWidth = panelRect.right - panelRect.left;
-        if (panelRect.right > document.body.scrollWidth) {
-            // Panel's overflowing the screen.
-            // Just drop it below the dfn and flip it rightward instead.
-            // This still wont' fix things if the screen is *really* wide,
-            // but fixing that's a lot harder without 'anchor()'.
-            dfnPanel.style.top = "1.5em";
-            dfnPanel.style.left = "auto";
-            dfnPanel.style.right = "0px";
-        }
-    }
-
-    function pinDfnPanel(dfnPanel) {
-        // Switch it to "activated" state, which pins it.
-        dfnPanel.classList.add("activated");
-        dfnPanel.style.left = null;
-        dfnPanel.style.top = null;
-    }
-
-    function hideDfnPanel(dfnPanel, dfn) {
-        if(!dfn) {
-            dfn = document.getElementById(dfnPanel.getAttribute("data-for"));
-        }
-        dfn.setAttribute("aria-expanded", "false")
-        dfnPanel.classList.remove("on");
-        dfnPanel.classList.remove("activated");
-    }
-
-    function toggleDfnPanel(dfnPanel, dfn) {
-        if(dfnPanel.classList.contains("on")) {
-            hideDfnPanel(dfnPanel, dfn);
-        } else {
-            showDfnPanel(dfnPanel, dfn);
-        }
-    }
-
-    function insertDfnPopupAction(dfn, dfnPanel) {
-        // Find dfn panel
-        const panelWrapper = document.createElement('span');
-        panelWrapper.appendChild(dfnPanel);
-        panelWrapper.style.position = "relative";
-        panelWrapper.style.height = "0px";
-        dfn.insertAdjacentElement("afterend", panelWrapper);
-        dfn.setAttribute('role', 'button');
-        dfn.setAttribute('aria-expanded', 'false')
-        dfn.tabIndex = 0;
-        dfn.classList.add('has-dfn-panel');
-        dfn.addEventListener('click', (event) => {
-            showDfnPanel(dfnPanel, dfn);
-            event.stopPropagation();
-        });
-        dfn.addEventListener('keypress', (event) => {
-            const kc = event.keyCode;
-            // 32->Space, 13->Enter
-            if(kc == 32 || kc == 13) {
-                toggleDfnPanel(dfnPanel, dfn);
-                event.stopPropagation();
-                event.preventDefault();
-            }
-        });
-
-        dfnPanel.addEventListener('click', (event) => {
-            if (event.target.nodeName == 'A') {
-                pinDfnPanel(dfnPanel);
-            }
-            event.stopPropagation();
-        });
-
-        dfnPanel.addEventListener('keydown', (event) => {
-            if(event.keyCode == 27) { // Escape key
-                hideDfnPanel(dfnPanel, dfn);
-                event.stopPropagation();
-                event.preventDefault();
-            }
-        })
-    }
-}
-</script>
-<script>/* Boilerplate: script-dfn-panel-json */
-window.dfnpanelData = {};
-window.dfnpanelData['96c4a495'] = {"dfnID": "96c4a495", "url": "https://tc39.es/ecma262/multipage/ecmascript-data-types-and-values.html#sec-list-and-record-specification-type", "dfnText": "lists", "refSections": [{"refs": [{"id": "ref-for-sec-list-and-record-specification-type"}, {"id": "ref-for-sec-list-and-record-specification-type\u2460"}], "title": "2. Processing Model"}], "external": true};
-window.dfnpanelData['53275e46'] = {"dfnID": "53275e46", "url": "https://infra.spec.whatwg.org/#list-append", "dfnText": "append", "refSections": [{"refs": [{"id": "ref-for-list-append"}], "title": "2. Processing Model"}], "external": true};
-window.dfnpanelData['84b454ff'] = {"dfnID": "84b454ff", "url": "https://infra.spec.whatwg.org/#ordered-map", "dfnText": "ordered map", "refSections": [{"refs": [{"id": "ref-for-ordered-map"}], "title": "2. Processing Model"}], "external": true};
-window.dfnpanelData['0204d188'] = {"dfnID": "0204d188", "url": "https://infra.spec.whatwg.org/#list-size", "dfnText": "size", "refSections": [{"refs": [{"id": "ref-for-list-size"}], "title": "2. Processing Model"}], "external": true};
-</script>
-<script>/* Boilerplate: script-dom-helper */
-function query(sel) { return document.querySelector(sel); }
-
-function queryAll(sel) { return [...document.querySelectorAll(sel)]; }
-
-function iter(obj) {
-	if(!obj) return [];
-	var it = obj[Symbol.iterator];
-	if(it) return it;
-	return Object.entries(obj);
-}
-
-function mk(tagname, attrs, ...children) {
-	const el = document.createElement(tagname);
-	for(const [k,v] of iter(attrs)) {
-		if(k.slice(0,3) == "_on") {
-			const eventName = k.slice(3);
-			el.addEventListener(eventName, v);
-		} else if(k[0] == "_") {
-			// property, not attribute
-			el[k.slice(1)] = v;
-		} else {
-			if(v === false || v == null) {
-        continue;
-      } else if(v === true) {
-        el.setAttribute(k, "");
-        continue;
-      } else {
-  			el.setAttribute(k, v);
-      }
-		}
-	}
-	append(el, children);
-	return el;
-}
-
-/* Create shortcuts for every known HTML element */
-[
-  "a",
-  "abbr",
-  "acronym",
-  "address",
-  "applet",
-  "area",
-  "article",
-  "aside",
-  "audio",
-  "b",
-  "base",
-  "basefont",
-  "bdo",
-  "big",
-  "blockquote",
-  "body",
-  "br",
-  "button",
-  "canvas",
-  "caption",
-  "center",
-  "cite",
-  "code",
-  "col",
-  "colgroup",
-  "datalist",
-  "dd",
-  "del",
-  "details",
-  "dfn",
-  "dialog",
-  "div",
-  "dl",
-  "dt",
-  "em",
-  "embed",
-  "fieldset",
-  "figcaption",
-  "figure",
-  "font",
-  "footer",
-  "form",
-  "frame",
-  "frameset",
-  "head",
-  "header",
-  "h1",
-  "h2",
-  "h3",
-  "h4",
-  "h5",
-  "h6",
-  "hr",
-  "html",
-  "i",
-  "iframe",
-  "img",
-  "input",
-  "ins",
-  "kbd",
-  "label",
-  "legend",
-  "li",
-  "link",
-  "main",
-  "map",
-  "mark",
-  "meta",
-  "meter",
-  "nav",
-  "nobr",
-  "noscript",
-  "object",
-  "ol",
-  "optgroup",
-  "option",
-  "output",
-  "p",
-  "param",
-  "pre",
-  "progress",
-  "q",
-  "s",
-  "samp",
-  "script",
-  "section",
-  "select",
-  "small",
-  "source",
-  "span",
-  "strike",
-  "strong",
-  "style",
-  "sub",
-  "summary",
-  "sup",
-  "table",
-  "tbody",
-  "td",
-  "template",
-  "textarea",
-  "tfoot",
-  "th",
-  "thead",
-  "time",
-  "title",
-  "tr",
-  "u",
-  "ul",
-  "var",
-  "video",
-  "wbr",
-  "xmp",
-].forEach(tagname=>{
-	mk[tagname] = (...args) => mk(tagname, ...args);
-});
-
-function* nodesFromChildList(children) {
-	for(const child of children.flat(Infinity)) {
-		if(child instanceof Node) {
-			yield child;
-		} else {
-			yield new Text(child);
-		}
-	}
-}
-function append(el, ...children) {
-	for(const child of nodesFromChildList(children)) {
-		if(el instanceof Node) el.appendChild(child);
-		else el.push(child);
-	}
-	return el;
-}
-
-function insertAfter(el, ...children) {
-	for(const child of nodesFromChildList(children)) {
-		el.parentNode.insertBefore(child, el.nextSibling);
-	}
-	return el;
-}
-
-function clearContents(el) {
-	el.innerHTML = "";
-	return el;
-}
-
-function parseHTML(markup) {
-	if(markup.toLowerCase().trim().indexOf('<!doctype') === 0) {
-		const doc = document.implementation.createHTMLDocument("");
-		doc.documentElement.innerHTML = markup;
-		return doc;
-	} else {
-		const el = mk.template({});
-		el.innerHTML = markup;
-		return el.content;
-	}
-}
-</script>
