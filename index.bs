@@ -1,0 +1,816 @@
+<pre class=metadata>
+Title: Writing Procedural Specs
+Shortname: procspec
+Editor: Gary Kacmarcik, Google https://google.com, garykac@google.com
+!Relying heavily on the expertise of: domenic@, jakearchibald@, jsbell@, ...
+URL: https://garykac.github.io/procxpec
+Status: DREAM
+Repository: garykac/procspec
+Abstract: This document contains a simple overview of common structures in algorithmic web standard specifications, with attention paid to the particular issues associated with Web Platform specifications. The examples are all presented in Bikeshed.
+Markup Shorthands: css no, markdown yes
+Boilerplate: table-of-contents yes, references yes, index no, property-index no, idl-index no, issues-index yes, conformance no
+Dark Mode: off
+Metadata Include: This version no, Issue Tracking no
+</pre>
+
+<h1>Writing Procedural Specs
+<br><small>...for the Web Platform</small>
+<br><small>...using Bikeshed</small>
+</h1>
+
+<style>
+code, pre, pre.highlight {
+    background-color: #f8f8ff;
+}
+pre, pre.highlight {
+    white-space: pre-wrap;
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin: 1em 0;
+}
+</style>
+
+NOTE: This document is mostly a collection of notes that I started making while wading into the procedural
+spec writing process. It does not currently cover everything, but rather only those things that I've bumped into so far.
+It's written as a set of recommendations, even though this is not official documentation.
+
+If you're just getting started with Bikeshed, you might find Daniel LaLiberte's
+<a href="https://dlaliberte.github.io/bikeshed-intro/">Introduction to Writing Specifications with Bikeshed</a>
+document to be a useful resource.
+
+
+# Introduction # {#introduction}
+
+## What is a Procedural Spec? ## {#what-is-a-procedural-spec}
+
+The recent call for "procedural specs" is basically asking for spec to be more specific and
+detailed (e.g, by including pseudo code algorithms and explicitly specifying each step).
+It came about as a reaction to the fairly loose style that had become prevalent in specs.
+
+Exclusively relying on the more informal style (where specs are mostly prose) sometimes led
+to situations where the behavior looked like it was well-specified, but inadvertently omitted
+important details. This, coupled with a lack of good tests, led at times to well-intentioned
+implementors creating incompatible versions of a feature (for example, the
+`KeyboardEvent`'s `keyCode` and `charCode` attributes).
+
+Of course, most specifications fall on the spectrum between these two extremes. Specifications
+will typically be some combination of informal prose (often non-normative) and more formal
+algorithms. The spec editor should use judgement to balance the need for readability vs.
+the need for specificity and consider the role that proper tests play in the specification
+process.
+
+## Location ## {#location}
+
+Because this document is an amalgam of information about procedural specs, the Web Platform
+and Bikeshed, some of the information might be more properly located in other locations:
+
+* <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org</a>, for algorithms and procedural spec writing
+* <a href="https://tabatkins.github.io/bikeshed/">Bikeshed documentation</a>, for information relating to using Bikeshed
+* Various Web Platform specs, for information about how to use defined objects in other specifications
+
+It's possible that some information presented here will move into other locations in the future.
+
+# Processing Model # {#processing-model}
+
+Many procedural specifications deal with data passing from script into some browser function where it is processed, and then some output is returned back into script. For both specifications and browser implementations, it is important to understand how different languages participate in this.
+
+A typical browser implementation interacts with script as follows:
+
+1. A *script engine* executes a line of JavaScript code.
+1. A *bindings layer* translates this into a call on an internal object (generally C++ or Rust), translating the input types from script to internal types.
+1. If the input is not valid, the *script engine* is told to throw an exception.
+1. Otherwise, the *implementation* processes the input and returns the output.
+1. The *bindings layer* translates that output from internal types into a JavaScript result.
+1. Execution continues in the *script engine* with the result.
+
+Specifications define the required *implementation* behavior using abstract concepts so that they can be written in any programming language (C++, Rust, etc). The language for those abstract concepts is defined by [[Infra]]. This includes <a href="https://infra.spec.whatwg.org/#algorithms">algorithms</a>, <a href="https://infra.spec.whatwg.org/#primitive-data-types">primitive data types</a> such as numbers and strings, and <a href="https://infra.spec.whatwg.org/#data-structures">data structures</a> such as lists and maps.
+
+
+The work of the *bindings layer* is defined by [[WebIDL]], which specifies how to translate JavaScript values into Infra types and back. Therefore, when writing a specification, you craft the Web IDL to define the API that JavaScript interacts with, but you write procedures in terms of Infra algorithms and types.
+
+Notes:
+
+* Outside of Web IDL fragments, specification text only needs to describe the behavior of the fourth step in the list above. Web IDL takes care of ensuring that an implementation is not presented with incorrect types.
+* Algorithms that operate on objects defined by Web IDL interfaces&mdash;either the "this" object or those passed as an argument&mdash;do reference the type named in Web IDL (e.g. `HTMLElement`). But it is important to note that they do not interact with it in the same way that script does; for example, they do not access properties or call methods on them.
+* Non-interface Web IDL types have some surprising subtlety:
+    * Enumerations are expressed in script simply as strings. Web IDL guarantees that implementations only need to consider valid members.
+    * Dictionaries are typically expressed in script as object literals. Web IDL defines the very rigorous steps in which the properties of these objects are inspected and extracted, and implementations only interact with the dictionary as an Infra [=ordered map=].
+    * Sequences are expressed in script as arrays or iterables. Web IDL converts these to [=lists=].
+* Wherever possible, link from your specification text to terms in Infra: types, such as [=lists=], properties such as [=list/size=], and operations such as [=list/append=]. This helps avoid ambiguity about the procedure you are defining, and helps you as the author think in terms of the types.
+
+NOTE: There are exceptional cases where some specifications need to deal directly with JavaScript types or properties of JavaScript objects. This should be a last resort, and done only after very careful consultation with experts. Writing this kind of specification correctly is *much* trickier than you can imagine.
+
+# Writing Algorithms # {#writing-algorithms}
+
+Create an algorithm `<div>` to contain your algorithm steps by including an `algorithm` attribute. This will add nice default styling to make the algorithms easier to read. In most cases, you should use `<dfn>` to create a definition, which will name the algorithm.
+
+
+```
+<div algorithm>
+  To <dfn>do a thing</dfn>:
+
+  ...your algorithm steps here...
+</div>
+```
+
+In addition to making the algorithm pretty, Bikeshed will also detect these algorithm
+blocks and do a bit of error checking to make sure that you don't have unused variables
+in your algorithm. Learn more about variables below.
+
+
+## Sequential algorithm steps ## {#sequential-algorithm-steps}
+
+All algorithm steps are implicitly sequential and each step must begin with `1.` so that they are auto-numbered.
+
+```
+1. step-1
+1. step-2
+1. step-3
+```
+
+Note that Bikeshed doesn't require that the lines begin with `1.`&mdash;any number followed by a `.` will work.
+Some spec editors prefer to explicitly number the items 1, 2, 3 to make the Bikeshed source document easier
+to read, but the recommendation here is to use `1.` everywhere to make it easier to insert new steps at the
+beginning or middle of the algorithm.
+
+
+# Writing IDL # {#writing-idl}
+
+## Use `<xmp>` for IDL blocks ## {#xmp-for-idl}
+
+The `<xmp>` tag is a deprecated HTML element that Bikeshed recommends as a replacement
+wherever you might want to use the `<pre>` tag.
+
+
+Within an `<xmp>` tag, you do not need to HTML-escape `&` and `<` characters.
+
+
+This is useful for IDL blocks because it means you don't have to write:
+
+```
+interface Clipboard : EventTarget {
+    Promise&lt;DataTransfer> read();
+};
+```
+
+You can write `Promise<DataTransfer>` directly, without escaping the `<` character.
+
+
+See <a href="https://tabatkins.github.io/bikeshed/#xmp">Bikeshed's xmp documentation</a> for more info.
+
+## Adding a domintro ## {#domintro}
+
+
+After any IDL block, it is important to include a section with a short, non-normative
+description for each property defined in the IDL.
+This section, known colloquially as a "domintro", should occur immediately after the IDL
+block it describes.
+
+
+See <a href="https://html.spec.whatwg.org/multipage/comms.html#the-messageevent-interface">The MessageEvent interface</a>
+for a good example of this practice.
+
+
+These descriptive blocks are especially important for algorithmic specifications because
+web developers tend to find the algorithms harder to read (which makes them less accessible).
+Note that the descriptions in the domintro section are likely to be extracted from
+the specification and include in external documentation (like
+<a href="https://developer.mozilla.org/en-US/">MDN</a>).
+
+
+The suggested markup for a domintro block is as follows:
+
+```
+<dl class="domintro">
+  <dt><code>property</code>
+  <dd>
+    <p>Brief summary of property
+</dl>
+```
+
+The underlying CSS for this may eventually be included in the default stylesheet, but in
+the meantime you can copy <a href="#domintro-css">this CSS</a> into your spec.
+
+
+## Internal Slots ## {#internal-slots}
+
+In IDL you define attributes, but in a procedural spec you should refer to "internal slot"s that hold
+the raw values associated with those attributes.
+
+
+As an example, given the following IDL:
+
+```
+Interface Television {
+    attribute unsigned short channel;
+    readonly attribute boolean supportsHighDefinition;
+};
+```
+
+A procedural spec would describe this by:
+
+
+(1) **defining an "internal slot"** for the channel value:
+
+```
+A [=television=] has a <dfn for=television>current channel</dfn> which is a positive integer, initially 3.
+```
+
+(2) specifying that the IDL attribute's **getter** should return the value in the internal slot:
+
+```
+The <dfn attribute for=Television>channel</dfn> IDL attribute's getter must return the television object’s [=television/current channel=].
+```
+
+(3) specifying that the IDL attribute's **setter** should update the value in the internal slot (not for readonly attributes!):
+
+```
+The <dfn attribute for=Television>channel</dfn> IDL attribute's setter, given |value|, must set the television object’s [=television/current channel=] to |value|.
+```
+
+(4) making sure that all operations in the spec **refer to the internal slot** rather than the IDL attribute:
+
+```
+When the + button on the remote is pressed, increase [=television/current channel=] of the associated [=television=] by 1.
+```
+
+
+# Concept Types and Objects # {#concept-types-and-objects}
+
+Types and objects that are required by the algorithm should be described outside the algorithm and should be
+presented as a definition, for example:
+
+```
+The user agent has a <dfn>really useful object</dfn> that ...
+```
+
+Note that the definition is a short, readable English phrase rather than a variable name (so no camelCase
+et al.). These lines are not numbered because they are not part of an algorithm.
+
+
+References to this type or object should be wrapped in `[=` and `=]` so that they are auto-linked by Bikeshed.
+
+```
+1. If the [=really useful object=] is null, then …
+```
+
+NOTE: You could also wrap types/objects with a simple `<a>` tag and Bikeshed will auto-link that as well,
+but the `[=square bracket=]` notation is easier to read and allows concise use of `[=for/term=]` for
+scoped definitions.
+
+## Adjusting Definition Names ## {#adjusting-dfn-names}
+
+Sometimes, when referencing these definitions, you'll want to adjust the name to avoid awkward
+grammatical constructions or to make the text read more smoothly.
+For example, you may define `<dfn>is valid</dfn>`, but want to
+reference that definition in "The value must be valid".
+
+
+This can be accomplished as follows:
+
+```
+The value must be [=is valid|valid=].
+```
+
+where the desired display text is given at the end, separated by a `|`.
+
+## Scoping Definitions ## {#scoping-definitions}
+
+If you are defining a generic term, you may need to scope it to disambiguate it from other uses of the same
+term (which may occur if another specification exports that term). Consider the following 2 definitions for
+"resolution":
+
+```
+A [=television=] has a <dfn>resolution</dfn> that …
+
+Each completed [=action=] has a <dfn>resolution</dfn> that …
+```
+
+These definitions can be scoped using the "for" attribute:
+
+```
+A [=television=] has a <dfn for=television>resolution</dfn> that …
+
+Each completed [=action=] has a <dfn for=action>resolution</dfn> that …
+```
+
+This allows the definitions to be explicitly referenced using the scope and the term:
+
+```
+1. If the [=television/resolution=] is "1080p", then …
+1. If the [=action/resolution=] is "fail", then …
+```
+
+Note that if you are adding multiple definitions for the same object, you can set a default scope as follows:
+
+```
+<div dfn-for=television>
+    A [=television=] has a <dfn>current channel</dfn> …
+    A [=television=] has a <dfn>resolution</dfn> …
+</div>
+```
+
+
+# Local variables # {#local-variables}
+
+When a variable is introduced (usually at the start of the algorithm, but may occur in
+the middle), use "let" and surround the variable name with `|`vertical bars`|`.
+
+```
+1. Let |y| be false.
+```
+
+Update already created variables with "set".
+
+```
+1. Set |x| to null.
+```
+
+NOTE: You could also wrap variable names with a `<var>` tag and Bikeshed will recognize that as well,
+but the `|`vertical bar`|` notation makes the algorithm easier to read.
+
+# Variable Types # {#variable-types}
+
+## Boolean ## {#boolean}
+
+* To create booleans: "Let \|x| be a boolean initially set to true." (or false)
+* To update booleans: "set" to "true" or "false"
+* To check booleans: use "is true" or "is false"
+
+NOTE: Many specs use "flags" which you "set" and "clear" and check for being "set" or "not set". Newer specs are starting to use "boolean". Existing specs that use flags may be converted at some point.
+
+## Strings and Mutability ## {#string-mutability}
+
+Many specs include steps like:
+
+```
+1. lowercase x
+```
+
+where `x` is a string. Note that this implies that `x` is mutable.
+An alternate way of writing this is:
+
+```
+1. set x to be the result of lowercasing x
+```
+
+which does not assume that `x` is mutable. To avoid unintended side-effects,
+don't use mutable strings when the scope of the variable extends outside the current
+function.
+
+NOTE: See <a href="https://github.com/whatwg/infra/issues/91">whatwg/infra/91</a> for further discussion.
+
+# If - Then - Else # {#if-then-else}
+
+Simple "if x then y" constructions can be placed on a single line.
+
+```
+1. If |x| is "some-value", set |y| to true.
+```
+
+The "else" clause (if present) must be a numbered sibling to the matching "if" clause.
+
+```
+1. If |x| is "some-value", set |y| to true.
+1. Else set |y| to false.
+```
+
+<div class="issue">
+ISSUE: Resolve "else" vs. "otherwise" (which is used in many specs).  Options include:
+(1) Require "else" and "else if";
+(2) Require "otherwise" and "otherwise if";
+(3) Allow both (but require that the spec must be consistent).
+Also, see Ternary Operator for another use of "otherwise".
+See <a href="https://github.com/garykac/procspec/issues/9">Issue #9</a>.
+</div>
+
+Any number of "else-if" clauses can be added, each one numbered at the same level as the matching "if" (see Switch, below, for another option if you have many "else-if"s).
+
+```
+1. If |x| is "some-value", set |some-var| to true.
+1. Else if |x| is "other-value", set |other-var| to true.
+1. Else set |other-other-var| to false.
+```
+
+If multiple actions need to occur, then sub-steps can be specified.
+
+```
+1. If |x| is "some-value", then:
+    1. Set |some-var| to true.
+    1. Set |some-other-var| to false.
+1. Else if |x| is "other-value", then:
+    1. Set |some-var| to false.
+    1. Set |some-other-var| to true.
+```
+
+<div class="note">
+NOTE: You may encounter specifications which refer to running "substeps", for example:
+```
+1. If |x| is "some-value", run the following substeps:
+    1. Set |some-var| to true.
+    1. Set |some-other-var| to true.
+```
+However, this phrasing is now discouraged in favor of the more concise "then".
+</div>
+
+
+# Switch # {#switch}
+
+<div class="examples">
+Spec examples: See <a href="https://w3c.github.io/IndexedDB/#evaluate-a-key-path-on-a-value">IndexedDB</a>
+</div>
+
+In some cases it may be more readable to list a set of choices rather than using if/else steps.
+
+```
+1. Switch on |style| and run the associated steps:
+    <dl class=switch>
+        <dt>"prose"</dt>
+        <dd>
+            1. Append the string "old and busted" to the output.
+            1. Return false
+        </dd>
+
+        <dt>"algorithmic"</dt>
+        <dd>
+            1. Append the string "new hotness" to the output.
+            1. Return true
+        </dd>
+
+        <dt>Otherwise</dt>
+        <dd>
+            1. Throw TypeError.
+        </dd>
+    </dl>
+```
+
+The cases can be more complicated than simple values e.g. ranges, referencing lists, etc. In the extreme, conditions can be used as cases where this improves readability over long if/else if/else if steps, e.g.:
+
+```
+1. Jump to the appropriate steps below:
+    <dl class=switch>
+        <dt>If |var| is a list and length is greater than 1</dt>
+        <dd>
+            ...
+        </dd>
+
+        <dt>If |var| is a list and length is 1</dt>
+        <dd>
+            …
+        </dd>
+
+        <dt>If |var| is a string</dt>
+        <dd>
+            …
+        </dd>
+
+        <dt>Otherwise</dt>
+        <dd>
+            …
+        </dd>
+    </dl>
+```
+
+NOTE: In various spec stylesheets, the "switch" class generates ↪ (U+21AA RIGHTWARDS ARROW WITH HOOK) using CSS ::before content.
+
+
+# Ternary Operator # {#ternary-operator}
+
+The compact ternary operator:
+
+```
+1. Set |x| to 1 if some-condition, or 2 otherwise.
+```
+
+
+# Conditions # {#conditions}
+
+Boolean conditions
+
+```
+1. If |var| is true, …
+```
+
+For conditions with complex data types, use "equals" and make sure it is linked to the text that defines equality for that data type. For example, for URLs:
+
+```
+1. If |thisURL| [=url/equals=] |requestURL|, …
+```
+
+NOTE: `[=url/equals=]` is a Bikeshed shortcut for `<a for="url">equals</a>`.
+
+
+# For Each # {#for-each}
+
+Simple "for each" constructions can be placed on a single line.
+
+```
+1. [=For each=] {{Entry}} |e| in |entry-list|, set |e|'s {{Entry/start}} to 0.
+```
+
+For more complex actions, use a colon and add indented sub-steps.
+
+```
+1. [=For each=] {{Entry}} |e| in |entry-list|:
+    1. Set |e|'s {{Entry/start}} to 0.
+    1. Set |e|'s {{Entry/end}} to 0.
+```
+
+To exit the loop prematurely, use "break"/"break out of this loop" (to stop the loop entirely by jumping to the end) or "continue"/"continue to the next item" (to stop this iteration and continue with the next item in the collection).
+
+
+As a shortcut for:
+
+```
+1. [=For each=] |e| in |entry-list|:
+    1. If |e|'s {{type}} is "t", set |e|'s {{start}} to 0.
+```
+
+you can use "for each … whose …":
+
+```
+1. [=For each=] |e| in |entry-list| whose {{type}} is "t", set |e|'s {{start}} to 0.
+```
+
+
+# Exiting # {#exiting}
+
+To exit the entire algorithm:
+
+```
+1. Abort these steps
+```
+
+or
+
+```
+1. Return
+```
+
+To exit and return a value from the algorithm:
+
+```
+1. Return |x|.
+```
+
+To exit by throwing an error:
+
+```
+1. If Type(|v|) is not an Object, [=throw=] a TypeError
+```
+
+The exit action can be appended to another action.
+
+```
+1.  Set |x| to false and abort these steps.
+```
+
+
+# Asynchronous tasks # {#asynchronous-tasks}
+
+By default, all algorithms run on the main thread. To run part of the algorithm on a
+background thread, use the "in parallel" construction:
+
+```
+1. Run these steps [=in parallel=]:
+    1. step-1
+    1. step-2
+```
+
+This indicates that a separate task should be created on the background thread to run the
+substeps (step-1 & step-2) in order. This new background task is run in parallel with the
+steps on the main thread.
+
+<div class="note">
+NOTE: In English, the construction "run these steps in parallel: A, B, C" means
+"run A, B and C in parallel with each other". However, in specifications, it has the
+specific meaning of running A, B and C sequentially on a background thread (that runs in
+parallel with the main thread).
+<div class="issue">
+ISSUE: This construction is rather awkward because it doesn't match the standard English
+meaning of this phrase.
+See <a href="https://github.com/garykac/procspec/issues/6">Issue #6</a>.
+</div>
+</div>
+
+
+## Running on the Background Thread ## {#background-thread}
+
+When specifying steps that run on a background thread, there are some restrictions to be aware of:
+
+
+* You cannot update values that are accessible from JS. Any action that needs to be observable from JS must be made on the main thread.
+
+
+Background tasks can create other background tasks (using the "in parallel" construction), but to get back onto the main thread, you need to "queue a task".
+
+```
+1. [=Queue a task=] that runs the following steps:
+    1. step-1
+    1. step-2
+```
+
+If you need to refer to this task elsewhere, it can be introduced as a local variable.
+
+```
+[=Queue a task=] |task| that runs the following steps:
+    1. step-1
+    1. step-2
+```
+
+Elsewhere in the algorithm, to block on this task, use "wait".
+
+```
+Wait for |task| to have executed.
+```
+
+
+# Promises # {#promises}
+
+The proper way to use Promises in specifications is covered in
+<a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing Promise-Using Specifications</a>.
+This sections provides only a brief high-level summary.
+
+
+To create a new promise:
+
+```
+1. Let |promise| be a new [=promise=].
+```
+
+To resolve the promise with a value.
+
+```
+1. Resolve |promise| with |some-value|.
+
+1. Resolve |promise| with undefined.
+```
+
+To reject a promise, use "reject" with the error.
+
+```
+1. Reject |promise| with an "AnError" DOMException.
+```
+
+
+# Defining Functions # {#defining-functions}
+
+Functions with explicit input and output can be written as follows:
+
+```
+<dfn>is it really Santa</dfn>
+: Input
+::    |name|, a string
+::    |isJolly|, a boolean
+: Output
+::   |isSanta|, a boolean
+1. Let |isSanta| be false.
+1. If name is "Nick" and |isJolly| is true, set |isSanta| to true.
+1. Return |isSanta|.
+```
+
+Sometimes, the function name is written more formally using camelCase or InitialCaps. In this example, that could be something like *isReallySanta*.
+
+
+If there are no input parameters to the function, the entire Input/Output block at the beginning is typically omitted.
+
+
+If there is input, but no output, then use "None" for output.
+
+```
+<dfn>do something</dfn>
+: Input
+::    |name|, a string
+: Output
+::   None
+1. Fire an event named "name" at the xyz element.
+```
+
+
+# Calling Functions # {#calling-functions}
+
+Functions without parameters are called as follows:
+
+```
+1. Let |result| be the result of running [=FunctionName=].
+```
+
+Functions with parameters:
+
+```
+1. Let |result| be the result of running [=FunctionName=] with "Kringle" and true as the arguments.
+```
+
+or
+
+```
+1. Let |result| be the result of running [=FunctionName=] given "Kringle" and true.
+```
+
+or (naming each argument):
+
+```
+1. Let |result| be the result of running [=FunctionName=] with |name| as "Kringle" and |isJolly| as true.
+```
+
+
+# Global Objects # {#global-objects}
+
+For some global Concept Objects, it is important to make sure that they are defined in the appropriate location to ensure that feature works as intended (and so that it is implemented in a compatible way in different implementations).
+
+
+Here are some common locations considered for global objects:
+
+
+
+## User Agent ## {#user-agent}
+
+This makes the object the same for the entire browser (across all tabs and web pages). Usually, this is not what you want.
+
+## Browsing Context (aka, a "tab" in the browser) ## {#browsing-context}
+
+Placing an object here makes it available to every page that is navigated to within that browsing context, even to cross-origin sites. This is also probably not where you want to place web platform objects.
+
+
+
+## Window/Navigator ## {#window-navigator}
+
+Window and Navigator have the same observable behavior, so the choice between them is arbitrary. However, it is often easier to write specs that refer to "the navigator's object xxx" (for Navigator) rather than "the navigator's object relevant global object's xxx" (for Window).
+
+
+Consider the following scenarios:
+
+
+* Inject into about:blank and then navigate: Objects **are** preserved.
+* document.open(): Objects **are not** preserved (because the Window is re-created)
+
+
+
+## Document ## {#document}
+
+This gives the object to every document, including those created by document.implementation.createDocument() and the XHR's <a href="https://xhr.spec.whatwg.org/#response-document-object">response document</a>.
+
+
+If your feature is user-facing, then you probably want to use "Document with a Browsing Context" so that the object is not present in those situations.
+
+## Document with a Browsing Context ## {#document-browsing-context}
+
+This gives the object to every document that is associated with a tab in the browser.
+
+
+Consider the following scenarios:
+
+
+* Inject into about:blank and then navigate: Objects **are not** preserved.
+* document.open(): Objects **are** preserved
+
+
+# ServiceWorkers # {#service-workers}
+
+`Navigator` objects that are intended to be available for `ServiceWorker`s need to be added to `ServiceNavigator`.
+In most cases, this means that the object will need to be added to both `Navigator` and `ServiceNavigator`.
+
+
+See <a href="https://w3c.github.io/permissions/#navigator-and-workernavigator-extension">this example</a>.
+
+ISSUE: Is this section supposed to refer to `WorkerNavigator` ?
+
+
+# Appendix A - CSS for domintro # {#domintro-css}
+
+Include this style block near the top of your Bikeshed file (see
+<a href="https://github.com/domenic/async-local-storage/blob/650bbe92f971dca1fc56f3597c9887c309761a92/spec.bs#L89-L117">Async Local Storage</a>
+for an example).
+
+```
+<style>
+/* domintro from https://resources.whatwg.org/standard.css */
+dl.domintro {
+  position: relative;
+  color: green;
+  background: #DDFFDD;
+  margin: 2.5em 0 2em 0;
+  padding: 1.5em 1em 0.5em 2em;
+}
+dl.domintro dt, dl.domintro dt * {
+  color: black;
+  font-size: inherit;
+}
+dl.domintro dd {
+  margin: 0.5em 0 1em 2em; padding: 0;
+}
+dl.domintro dd p {
+  margin: 0.5em 0;
+}
+dl.domintro::before {
+  content: 'For web developers (non-normative)';
+  background: green;
+  color: white;
+  padding: 0.15em 0.25em;
+  font-style: normal;
+  position: absolute;
+  top: -0.8em;
+  left: -0.8em;
+}
+</style>
+```
